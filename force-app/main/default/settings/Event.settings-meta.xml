@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EventSettings xmlns="http://soap.sforce.com/2006/04/metadata">
+    <enableEventLogGeneration>false</enableEventLogGeneration>
+    <eventLogRetentionDuration>0</eventLogRetentionDuration>
+</EventSettings>

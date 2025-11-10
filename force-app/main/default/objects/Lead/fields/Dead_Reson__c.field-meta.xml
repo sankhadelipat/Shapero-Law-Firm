@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Dead_Reson__c</fullName>
+    <label>Dead Reson</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Non Responsive</fullName>
+                <default>false</default>
+                <label>Non Responsive</label>
+            </value>
+            <value>
+                <fullName>Affordability Issue</fullName>
+                <default>false</default>
+                <label>Affordability Issue</label>
+            </value>
+            <value>
+                <fullName>Competition Won</fullName>
+                <default>false</default>
+                <label>Competition Won</label>
+            </value>
+            <value>
+                <fullName>Bad Personality Fit</fullName>
+                <default>false</default>
+                <label>Bad Personality Fit</label>
+            </value>
+            <value>
+                <fullName>SS Not Interested</fullName>
+                <default>false</default>
+                <label>SS Not Interested</label>
+            </value>
+            <value>
+                <fullName>Not a lead</fullName>
+                <default>false</default>
+                <label>Not a lead</label>
+            </value>
+            <value>
+                <fullName>Client Working Out with Lender</fullName>
+                <default>false</default>
+                <label>Client Working Out with Lender</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

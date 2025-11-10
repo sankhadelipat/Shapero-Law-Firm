@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__trustedSites",
+  "title" : "trustedSites",
+  "contentBody" : {
+    "trustedSites" : [ {
+      "isActive" : true,
+      "source" : "https://customization-page-3153.my.salesforce-scrt.com",
+      "sourceName" : "Messaging for Web host"
+    } ]
+  },
+  "urlName" : "trustedsites"
+}

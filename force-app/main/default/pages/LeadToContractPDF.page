@@ -1,0 +1,33 @@
+<apex:page standardController="Lead"
+           renderAs="pdf"
+           applyBodyTag="false"
+           showHeader="false"
+           sidebar="false"
+           standardStylesheets="false">
+    <style>
+        body {
+        	font-family: Arial, sans-serif;
+        	font-size: 12px;
+        	line-height: 1.4;
+        }
+        .header{
+        	text-align: center;
+        	margin-bottom: 20px;
+        	font-weight: bold;
+        }
+        
+        .main-title {
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: underline;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        <div>
+            <div class="main-title">CONTINGENCY FEE AGREEMENT</div>
+        	<div class="main-title">ATTORNEY-CLIENT COMMUNICATION</div>
+        </div>
+        
+    </style>
+</apex:page>

@@ -1,0 +1,31 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Order Summary Details",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "attributes" : {
+          "dxpStyle" : {
+            "isVisible" : false
+          }
+        },
+        "id" : "cb778368-5f47-4d6d-899b-c377c7aefbd5"
+      }, {
+        "attributes" : {
+          "dxpStyle" : {
+            "isVisible" : false
+          }
+        },
+        "id" : "5a7304f0-850e-4a42-8426-ee36f8f32dc0"
+      }, {
+        "attributes" : {
+          "dxpStyle" : {
+            "isVisible" : false
+          }
+        },
+        "id" : "c8b62d34-9094-442b-9b76-3df996b0b187"
+      } ]
+    }
+  },
+  "urlName" : "order-summary-details"
+}
