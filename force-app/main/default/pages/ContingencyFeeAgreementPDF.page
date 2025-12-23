@@ -1,0 +1,175 @@
+<apex:page renderAs="pdf" standardController="Lead" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <html>
+        <head>
+            <title>Contingency Fee Agreement</title>
+            <style type="text/css">
+                body {
+                    font-family: sans-serif;
+                    font-size: 13pt;
+                    line-height: 1.2;
+                    margin: 40px;
+                    color: #333;
+                }
+                u { 
+                    text-decoration: underline;
+                }
+                .mark {
+                    /* Style for fields that will be filled */
+                    background-color: yellow;
+                }
+                .section-title {
+                    font-weight: bold;
+                    text-align: center;
+                    margin-bottom: 5px;
+                }
+                .clause-title {
+                    margin-top: 15px;
+                    margin-bottom: 5px;
+                }
+                .initial-box {
+                    border-bottom: 1px solid #000;
+                    display: inline-block;
+                    width: 100px;
+                    text-align: center;
+                }
+                .signature-line {
+                    border-top: 1px solid #000;
+                    margin-top: 40px;
+                    padding-top: 5px;
+                    font-size: 10pt;
+                }
+                .underline {
+                    text-decoration: underline;
+                }
+            </style>
+        </head>
+        <body>
+            <!-- Page Title -->
+            <div class="section-title">CONTINGENCY FEE AGREEMENT</div>
+            <div class="section-title">ATTORNEY-CLIENT COMMUNICATION</div>
+
+            <!-- Clause 1 -->
+            <p>
+                <strong>1.</strong> THIS AGREEMENT is made this date, <span class="mark">{!DAY(TODAY())}/{!MONTH(TODAY())}/{!YEAR(TODAY())}</span>, between
+                Shapero Law Firm (hereinafter "the Firm"), and <span class="mark">{!Lead.FirstName}</span> <span class="mark">{!Lead.LastName}</span> (Client), hereinafter referred to as "Client(s)."
+            </p>
+
+            <!-- Clause 2 -->
+            <p>
+                <span class="clause-title">2. MATTERS COVERED:</span>
+                This Agreement covers Attorney's efforts to mediate and litigate Client's claims against the sellers of the property located at <span class="mark">{!Lead.Street}</span>, <span class="mark">{!Lead.City}</span>, <span class="mark">{!Lead.State}</span> <span class="mark">{!Lead.PostalCode}</span>.
+            </p>
+
+            <!-- Clause 3 -->
+            <p>
+                <span class="clause-title">3. SERVICES TO BE PERFORMED BY ATTORNEY:</span>
+                Attorney agrees to perform all services necessary to recover for Clients damages as a result of the seller's failures to disclose all conditions related to the property located at <span class="mark">{!Lead.Street}</span>, <span class="mark">{!Lead.City}</span>, <span class="mark">{!Lead.State}</span> <span class="mark">{!Lead.PostalCode}</span>.
+            </p>
+
+            <!-- Clause 4 -->
+            <p>
+                <span class="clause-title">4. FEE AGREEMENT:</span>
+                Attorney fees are not set by law and are negotiable between Attorney and Client. Client acknowledges and agrees that Attorney's billable rate is $600 an hour for senior associates, $295-$325 an hour for junior associates, and $150 an hour for investigators and paralegals. However, <u>in lieu of paying Attorney's hourly rate,</u> Client agrees that Attorney will not collect the hourly fee from Client but will be entitled to any attorneys fees awarded in this action and will receive a percentage of any monetary recovery to Client, including surplus funds. <strong><u>Client will agree to pay all costs associated with this action (as set forth in Section 5 below) at the termination of this agreement.</u></strong>
+            </p>
+            <blockquote>
+                a. MONETARY RECOVERY TO THE CLIENT. If money is awarded to Client, or if money is recovered for client by any means, Attorney shall receive 33% of the gross amount of any such money. Any recovery for Client shall be made payable to Shapero Law Firm Client Trust Account.
+            </blockquote>
+
+            <!-- Clause 5 -->
+            <p>
+                <span class="clause-title">5. COSTS:</span>
+                Attorney will incur various costs and expenses in performing legal services under this Agreement. Although the Attorney may advance said costs, Client agrees to pay for all costs, disbursements and expenses paid or owed by Client in connection with this matter as such costs, disbursements and expenses are incurred. Client will remain responsible for the actual fees/costs incurred in accordance with this Agreement.
+            </p>
+            <blockquote>
+                <p>
+                    a. STANDARD COSTS: The following are typical costs incurred in most litigations: Filing Fees for filing a lawsuit in Superior Court -- $435.00. Service of the lawsuit on an in state Defendant -- $75.00. Service of the lawsuit out of state -- $150.00. Filing a Lis Pendens (which is a cloud on title filed at the County Recorders office -- $35.00). Unlawful Detainer answers are approximately $300.00 per occupant. A client should expect to pay between $550 and $1,000.00 in filing fees to commence the lawsuit. Later, if the client continues toward trial other costs may be necessary to put on a good trial, such as deposition expenses and expert witness fees. The majority of cases do not proceed so far towards trial that depositions and expert witness fees are necessary, but if trial becomes necessary these fees can be high. A deposition could cost approximately $1,000.00. Retaining experts for trial is even more costly.
+                </p>
+                <p>
+                    b. COSTS ON DISMISSAL: Client further understands that should Judgment be rendered against Client at the trial of this action, or Client's claim fails the Client may be responsible to pay any costs which the Court may award to the opposing party or parties, including their attorney fees. <u>This does pose a risk</u> as an attorney fee award may be imposed against you. Usually this outcome can be avoided by voluntary dismissal if the action starts doing poorly, but it is a possibility if the action suddenly fails.
+                </p>
+            </blockquote>
+                
+            <!-- Clause 6 -->
+            <p>
+                <span class="clause-title">6. WITHDRAWAL:</span>
+                Attorney may withdraw as Client's Attorney and be discharged of its obligations under this Agreement at any time upon giving reasonable notice. Client also may terminate attorney at any time. In the event that funds are ultimately recovered by Client after termination of this agreement, Attorney will receive a proportional percentage of the recovery based on the amount of worked performed prior to termination of this contract. If no funds are recovered for Client, nothing is owed under this agreement with the exception of any costs expended as set forth above in Section 5.
+            </p>
+
+            <!-- Clause 7 -->
+            <p>
+                <span class="clause-title">7. ATTORNEY'S LIEN:</span>
+                Client agrees to grant Attorney a lien on any and all claims, causes of action, or attorney fees due pursuant to this Agreement. The lien, to ensure payment of any sums owing to attorney at the conclusion of services performed, will attach to any recovery Client may obtain, or upon Client's real or personal property. Attorney may compel payment of fees and costs from any such funds recovered on behalf of Client, even if Attorney has been discharged before the end of the case. Client may seek the opinion of an independent lawyer prior to agreeing to this lien.
+            </p>
+
+            <!-- Clause 8 -->
+            <p>
+                <span class="clause-title">8. TAX DISCLOSURE AND ACKNOWLEDGMENT:</span>
+                CLIENT IS ADVISED TO OBTAIN INDEPENDENT AND COMPETENT TAX ADVICE regarding potential settlements which may alter the terms of Client's secured debt and awards of damages in civil litigation which may have significant tax consequences. The Firm does not employ tax attorneys nor offer tax advice. Before Client consents to any settlement or award of damages, Client may wish to consult a tax professional. The Firm is not responsible for any tax liability Client might incur as a result of its obtaining settlements which alter the terms of Client's secured debt, awards of damages in civil litigation, or a recovery of money damages on Client's behalf.
+            </p>
+
+            <!-- Clause 9 -->
+            <p>
+                <span class="clause-title">9. ARBITRATION OF DISPUTES:</span>
+                The parties elect herein that any fee disputes be resolved pursuant to the fee arbitration procedures of the State Bar of California, in any dispute subject to the jurisdiction of the State of California over attorney's fees, charges, costs or expenses, as set forth in California Business and Professions Code § 6200, <em>et seq</em>. If, after receiving a notice of this right to arbitrate, you do not elect to proceed under the State Bar fee arbitration procedures, and do not file a request for fee arbitration within 30 days, any dispute over fees, charges, costs or expenses, will be resolved by binding arbitration as follows.
+            </p>
+
+            <!-- Clause 10 -->
+            <p>
+                <span class="clause-title">10.</span>
+                Any claim arising out of or relating to this Agreement or its breach shall be submitted to binding arbitration upon the written request of one party after the service of that request on the other party. The sole and exclusive venue for the arbitration and or any legal dispute, shall be San Mateo County, California. No claim for punitive damages may be brought in any arbitration under this agreement, and the losing party in any arbitration will pay all of the costs associated with the arbitration, as well as a reasonable attorney's fee to the prevailing party.
+            </p>
+            <p>
+                By initialing below, Client confirms that they have read and understand the paragraphs above, and voluntarily agree to binding arbitration. In doing so, the Client voluntarily gives up important constitutional rights to trial by judge or jury, as well as rights to appeal. Client is advised that Client has the right to have an independent attorney of Client's choice review these arbitration provisions, and this entire agreement, prior to initialing this provision or signing this Agreement.
+            </p>
+            <p>
+                <!-- Client Initial <span class="mark"><apex:inputField value="{!Lead.Arbitration_Initial__c}" style="border: none; border-bottom: 1px dotted #000; background: transparent; width: 100px; text-align: center;"/></span> -->
+                <!-- Assumes a custom field 'Arbitration_Initial__c' on the Lead object -->
+            </p>
+
+            <!-- Clause 11 -->
+            <p>
+                <span class="clause-title">11. LEGAL CONSTRUCTION:</span>
+                In case any one or more of the provisions contained in this Agreement shall be held to be invalid in any respect, such shall not affect any other provisions of this Agreement.
+            </p>
+
+            <!-- Clause 12 -->
+            <p>
+                <span class="clause-title">12.</span>
+                California law does not require an Attorney to, and Attorney does not, carry professional liability insurance.
+            </p>
+
+            <!-- Clause 13 -->
+            <p>
+                <span class="clause-title">13. CONFIDENTIALITY OF SETTLEMENTS:</span>
+                Neither Firm nor any of its attorneys are able to be bound by confidentiality provisions in settlements which would in the opinion of the Firm interfere with the prosecution of other clients' cases.
+            </p>
+
+            <!-- Clause 14 -->
+            <p>
+                <span class="clause-title">14.</span>
+                Client has read and understands and agrees to the terms of this Agreement.
+            </p>
+            <p style="text-indent: 4em;">
+                I certify and acknowledge that I have had the opportunity to read this Agreement. I further state that I have voluntarily entered into this Agreement fully aware of its terms and conditions as of the date the Attorney first provided services. All clients signing below agree to be liable, jointly and severally, for all obligations under this agreement.
+            </p>
+
+            <!-- Signatures -->
+            <div>
+                <!-- CLIENT(S)<br/>
+                Signed : <span class="mark"><apex:inputField value="{!Lead.Client_Signature__c}" style="border: none; border-bottom: 1px dotted #000; background: transparent; width: 300px;"/></span><br/> -->
+                <!-- Assumes a custom field 'Client_Signature__c' -->
+                <!-- Date : <span class="mark"><apex:inputField value="{!Lead.Client_Signature_Date__c}" style="border: none; border-bottom: 1px dotted #000; background: transparent; width: 300px;"/></span><br/> -->
+                <!-- Assumes a custom field 'Client_Signature_Date__c' -->
+                <!-- Print Name : <span class="mark"><apex:inputField value="{!Lead.Name}" style="border: none; border-bottom: 1px dotted #000; background: transparent; width: 250px;"/></span> -->
+                <!-- Uses standard Name field -->
+            </div>
+
+            <div>
+                Attorney Sarah Shapero<br/>
+                Signed : <span class="mark">_________________________</span><br/>
+                Date : <span class="mark">_________________________</span>
+            </div>
+
+        </body>
+    </html>
+</apex:page>
