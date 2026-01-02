@@ -1,7 +1,7 @@
 {
   "trailingComma": "none",
   "tabWidth": 4,
-  "writeWidth": 120,
+  "printWidth": 140,
   "plugins": ["prettier-plugin-apex", "@prettier/plugin-xml"],
   "overrides": [
     {
