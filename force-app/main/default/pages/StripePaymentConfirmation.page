@@ -1,0 +1,120 @@
+<apex:page showHeader="false" sidebar="false" cache="false" docType="html-5.0">
+    <html>
+        <head>
+            <style>
+                body {
+                    font-family:
+                        system-ui,
+                        -apple-system,
+                        BlinkMacSystemFont,
+                        "Segoe UI",
+                        Arial;
+                    background: #f7f9fb;
+                    padding: 40px;
+                }
+
+                .box {
+                    max-width: 480px;
+                    margin: auto;
+                    background: #ffffff;
+                    padding: 32px;
+                    border-radius: 12px;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                    text-align: center;
+                }
+
+                .success {
+                    color: #2e844a;
+                }
+                .processing {
+                    color: #84832e;
+                }
+                .failure {
+                    color: #c23934;
+                }
+
+                .heading {
+                    margin-bottom: 22px;
+                }
+
+                h1 {
+                    font-size: 16px;
+                }
+
+                p {
+                    font-size: 14px;
+                    margin: 8px 0px;
+                }
+
+                .ref {
+                    margin-top: 20px;
+                    font-size: 12px;
+                    color: #888;
+                    word-break: break-all;
+                }
+            </style>
+        </head>
+
+        <body>
+            <div id="content"></div>
+
+            <script>
+                window.history.replaceState({}, document.title, window.location.pathname);
+                
+                function getQueryParam(name) {
+                    const params = new URLSearchParams(window.location.search);
+                    return params.get(name);
+                }
+
+                const paymentIntentId = getQueryParam("payment_intent");
+                const redirectStatus = getQueryParam("redirect_status");
+
+                const container = document.getElementById("content");
+
+                if (!paymentIntentId) {
+                    container.innerHTML = `
+            <div class="box failure">
+                <div class="heading">
+                    <h1>Payment Not Confirmed</h1>
+                </div>
+                <p>We could not verify your payment.</p>
+                <p>Please contact support for assistance.</p>
+            </div>
+        `;
+                } else if (redirectStatus === "succeeded") {
+                    container.innerHTML = `
+            <div class="box success">
+                <div class="heading">
+                    <h1>Payment Successful</h1>
+                </div>
+                <p>Thank you. Your payment has been received.</p>
+                <div class="ref">Reference: ${paymentIntentId}</div>
+            </div>
+        `;
+                } else if (redirectStatus === "processing") {
+                    container.innerHTML = `
+            <div class="box processing">
+                <div class="heading">
+                    <h1>Payment Processing</h1>
+                </div>
+                <p>Your payment is still being processed.</p>
+                <p>This may take a few moments.</p>
+                <div class="ref">Reference: ${paymentIntentId}</div>
+            </div>
+        `;
+                } else {
+                    container.innerHTML = `
+            <div class="box failure">
+                <div class="heading">
+                    <h1>Payment Not Completed</h1>
+                </div>
+                <p>Your payment was not completed successfully.</p>
+                <p>If funds were deducted, they will be returned automatically.</p>
+                <div class="ref">Reference: ${paymentIntentId}</div>
+            </div>
+        `;
+                }
+            </script>
+        </body>
+    </html>
+</apex:page>

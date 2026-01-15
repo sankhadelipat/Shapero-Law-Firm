@@ -1,7 +1,7 @@
-<apex:page controller="StripePaymentController" showHeader="false" sidebar="false" docType="html-5.0">
+<apex:page controller="StripePaymentController" showHeader="false" sidebar="false" cache="false" docType="html-5.0">
     <html>
         <head>
-            <script src="https://js.stripe.com/v3/"></script>
+            <script src="https://js.stripe.com/clover/stripe.js"></script>
             <style>
                 body {
                     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
@@ -68,7 +68,7 @@
                     margin-top: 20px;
                 }
 
-                #card-element {
+                #payment-element.show {
                     border: 1px solid #dcdcdc;
                     padding: 12px;
                     border-radius: 6px;
@@ -87,35 +87,31 @@
                     margin-top: 25px;
                     transition: background 0.3s ease;
                 }
-
                 .payBtn:hover {
                     background: #4e45e5;
                 }
-
                 .payBtn:disabled {
                     background: #a5a5a5;
                     cursor: not-allowed;
                 }
 
+                .success {
+                    text-align: center;
+                    color: #2e844a;
+                }
+                .processing {
+                    text-align: center;
+                    color: #84832e;
+                }
+                .failure {
+                    text-align: center;
+                    color: #c23934;
+                }
                 .error {
                     color: #c23934;
                     margin-top: 12px;
                     font-size: 14px;
-
-                    /*background-color: #b14945;
-                    border-radius: 4px;
-                    color: #fff;
-                    margin-top: 18px;
-                    padding: 4px 6px;
-                    font-size: 14px;*/
                 }
-
-                .success {
-                    font-size: 12px;
-                    text-align: center;
-                    color: #2e844a;
-                }
-
                 .success h2 {
                     color: #2e844a;
                     font-size: 18px;
@@ -126,9 +122,25 @@
                     text-align: center;
                     margin-top: 20px;
                 }
-
                 .spinner.show {
                     display: block;
+                }
+
+                .heading {
+                    margin-bottom: 22px;
+                }
+                .heading h1 {
+                    font-size: 16px;
+                }
+                .paragraph {
+                    font-size: 14px;
+                    margin: 8px 0px;
+                }
+                .ref {
+                    margin-top: 20px;
+                    font-size: 12px;
+                    color: #888;
+                    word-break: break-all;
                 }
             </style>
         </head>
@@ -136,7 +148,7 @@
         <body>
             <div class="container">
                 <!-- PAID STATE -->
-                <apex:outputPanel rendered="{!amountDue == 0}">
+                <apex:outputPanel rendered="{!amountDue <= 0}">
                     <div class="success">
                         <h2>Invoice Paid</h2>
                         <p>This invoice has already been paid.</p>
@@ -155,13 +167,13 @@
 
                         <!-- <div class="section">
                             <label>Billing Details</label>
-                            <input type="text" placeholder="Name" disabled />
-                            <input type="email" placeholder="Email" disabled />
+                            <input id="billingName" type="text" placeholder="Name" />
+                            <input id="billingEmail" type="email" placeholder="Email" />
                         </div> -->
 
                         <div class="section">
                             <label>Payment Method</label>
-                            <div id="card-element"></div>
+                            <div id="payment-element"></div>
                         </div>
 
                         <button id="payBtn" class="payBtn" onclick="pay()">Pay</button>
@@ -174,11 +186,38 @@
 
             <script>
                 const stripe = Stripe("{!publishableKey}");
-                const elements = stripe.elements();
-                const card = elements.create("card");
-                card.mount("#card-element");
 
+                let elements;
+                let paymentElement;
+                let paymentIntentId;
+                let clientSecret;
                 let paymentInProgress = false;
+
+                window.onload = function () {
+                    Visualforce.remoting.Manager.invokeAction(
+                        "{!$RemoteAction.StripePaymentController.createPaymentIntent}",
+                        "{!invoiceId}",
+                        "{!amountDue}",
+                        function (result, event) {
+                            if (event.status) {
+                                clientSecret = result.clientSecret;
+                                paymentIntentId = result.paymentIntentId;
+                                initStripeElements(clientSecret);
+                            } else {
+                                document.getElementById("error").textContent = result ? result.errorMessage : event.message;
+                            }
+                        }
+                    );
+                };
+
+                function initStripeElements(clientSecret) {
+                    elements = stripe.elements({ clientSecret });
+                    paymentElement = elements.create("payment", {
+                        layout: "tabs"
+                    });
+                    paymentElement.mount("#payment-element");
+                    document.getElementById("payment-element").classList.add("show");
+                }
 
                 function setLoading(state) {
                     document.getElementById("payBtn").disabled = state;
@@ -194,10 +233,12 @@
 
                     errorEl.textContent = "";
 
+                    console.log(amount, "{!amountDue}");
+
                     if (!amount || amount <= 0) {
                         errorEl.textContent = "Please enter a valid amount.";
                         return;
-                    } else if (amount > '{!amountDue}') {
+                    } else if (amount > {!amountDue}) {
                         errorEl.textContent = "Amount exceeds the total due.";
                         return;
                     }
@@ -206,16 +247,19 @@
                     setLoading(true);
 
                     Visualforce.remoting.Manager.invokeAction(
-                        "{!$RemoteAction.StripePaymentController.createPaymentIntent}",
-                        "{!invoiceId}",
+                        "{!$RemoteAction.StripePaymentController.updatePaymentIntent}",
+                        paymentIntentId,
                         amount,
                         function (result, event) {
                             if (event.status) {
                                 stripe
-                                    .confirmCardPayment(result.clientSecret, {
-                                        payment_method: {
-                                            card: card
-                                        }
+                                    .confirmPayment({
+                                        elements,
+                                        confirmParams: {
+                                            return_url:
+                                                "https://customization-page-3153--dev.sandbox.my.salesforce-sites.com/apex/StripePaymentConfirmation"
+                                        },
+                                        redirect: "if_required"
                                     })
                                     .then(function (res) {
                                         if (res.error) {
@@ -224,11 +268,33 @@
                                             setLoading(false);
                                         } else {
                                             if (res.paymentIntent.status === "succeeded") {
-                                                paymentEl.innerHTML =
-                                                    '<div class="success">' +
-                                                    "<h2>Payment Successful</h2>" +
-                                                    "<p>Thank you. Your payment has been received.</p>" +
-                                                    "</div>";
+                                                paymentEl.innerHTML = `<div class="success">
+                                                    <div class="heading">
+                                                        <h1>Payment Successful</h1>
+                                                    </div>
+                                                    <p class="paragraph">Thank you. Your payment has been received.</p>
+                                                    <div class="ref">Reference: ${paymentIntentId}</div>
+                                                </div>`;
+                                            } else if (res.paymentIntent.status === "processing") {
+                                                paymentEl.innerHTML = `<div class="processing">
+                                                    <div class="heading">
+                                                        <h1>Payment Received</h1>
+                                                    </div>
+                                                    <p class="paragraph">We've successfully received your payment request.</p>
+                                                    <p class="paragraph">Your bank may take
+                                                    <strong>1-2 business days</strong> to complete the debit.
+                                                    No further action is required.</p>
+                                                    <div class="ref">Reference: ${paymentIntentId}</div>
+                                                </div>`;
+                                            } else {
+                                                paymentEl.innerHTML = `<div class="failure">
+                                                    <div class="heading">
+                                                        <h1>Payment Not Completed</h1>
+                                                    </div>
+                                                    <p class="paragraph">Your payment was not completed successfully.</p>
+                                                    <p class="paragraph">If funds were deducted, they will be returned automatically.</p>
+                                                    <div class="ref">Reference: ${paymentIntentId}</div>
+                                                </div>`;
                                             }
                                         }
                                     });

@@ -31,6 +31,7 @@ public without sharing class StripePaymentController {
     public class PaymentIntentResponse {
         public Boolean success;
         public String clientSecret;
+        public String paymentIntentId;
         public String errorMessage;
     }
 
@@ -74,6 +75,7 @@ public without sharing class StripePaymentController {
             bodyParts.add('amount=' + amountInCents);
             bodyParts.add('currency=usd');
             bodyParts.add('automatic_payment_methods[enabled]=true');
+            bodyParts.add('setup_future_usage=off_session');
             if (String.isNotBlank(customerId))
                 bodyParts.add('customer=' + EncodingUtil.urlEncode(customerId, 'UTF-8'));
             bodyParts.add('metadata[salesforce_invoice_id]=' + EncodingUtil.urlEncode(String.valueOf(invoiceId), 'UTF-8'));
@@ -89,12 +91,59 @@ public without sharing class StripePaymentController {
                 System.debug('Created Payment Intent: ' + paymentIntent);
 
                 String clientSecret = (String) paymentIntent.get('client_secret');
+                String paymentIntentId = (String) paymentIntent.get('id');
+
                 response.success = true;
                 response.clientSecret = clientSecret;
+                response.paymentIntentId = paymentIntentId;
                 return response;
             } else {
                 throw new CalloutException(
                     'Failed to create Payment Intent. Status Code: ' + res.getStatusCode() + ', Body: ' + res.getBody()
+                );
+            }
+        } catch (Exception e) {
+            response.success = false;
+            response.errorMessage = e.getMessage();
+            return response;
+        }
+    }
+
+    @RemoteAction
+    public static PaymentIntentResponse updatePaymentIntent(String paymentIntentId, Decimal amount) {
+        PaymentIntentResponse response = new PaymentIntentResponse();
+        try {
+            if (amount == null || amount <= 0) {
+                throw new HandledException('Invalid amount.');
+            } else if (String.isBlank(paymentIntentId)) {
+                throw new HandledException('Invalid Payment Intent ID.');
+            }
+
+            Integer amountInCents = Integer.valueOf((amount * 100));
+
+            HttpRequest req = new HttpRequest();
+            req.setEndpoint(STRIPE_API_URL + '/payment_intents/' + paymentIntentId);
+            req.setMethod('POST');
+            req.setHeader('Authorization', 'Basic ' + EncodingUtil.base64Encode(Blob.valueOf(SECRET_KEY + ':')));
+            req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+            req.setBody('amount=' + amountInCents);
+
+            Http http = new Http();
+            HttpResponse res = http.send(req);
+
+            if (res.getStatusCode() == 200) {
+                Map<String, Object> paymentIntent = (Map<String, Object>) JSON.deserializeUntyped(res.getBody());
+                System.debug('Updated Payment Intent: ' + paymentIntent);
+
+                String clientSecret = (String) paymentIntent.get('client_secret');
+
+                response.success = true;
+                response.clientSecret = clientSecret;
+                response.paymentIntentId = paymentIntentId;
+                return response;
+            } else {
+                throw new CalloutException(
+                    'Failed to update Payment Intent. Status Code: ' + res.getStatusCode() + ', Body: ' + res.getBody()
                 );
             }
         } catch (Exception e) {
