@@ -40,14 +40,14 @@ public class StripePaymentIntentQueueable implements Queueable, Database.AllowsC
                 }
 
                 Invoice__c invoice = invoices[0];
-                if (eventType == 'payment_intent.succeeded') {
+                /*if (eventType == 'payment_intent.succeeded') {
                     invoice.Status__c = 'Paid';
                 } else if (eventType == 'payment_intent.payment_failed') {
                     invoice.Status__c = 'Payment_Failed';
-                }
+                } 
 
                 update invoice;
-                System.debug('Updated Invoice status to ' + invoice.Status__c + ' for Invoice Id: ' + invoice.Id);
+                System.debug('Updated Invoice status to ' + invoice.Status__c + ' for Invoice Id: ' + invoice.Id);*/
 
                 // Process payment intent details
                 String status = eventType == 'payment_intent.succeeded'

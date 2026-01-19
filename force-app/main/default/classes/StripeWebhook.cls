@@ -35,10 +35,7 @@ global without sharing class StripeWebhook {
             String paymentMethodId = (String) paymentMethod.get('id');
             System.debug('Payment Method ID: ' + paymentMethodId);
 
-            Payment_Method__c pm = new Payment_Method__c();
-            pm.Stripe_Payment_Method_Id__c = paymentMethodId;
-            // pm.Status__c = 'Attached';
-            upsert pm Stripe_Payment_Method_Id__c;
+            System.enqueueJob(new StripePaymentMethodQueueable(paymentMethodId));
         } else if (eventType.equals('payment_intent.succeeded') || eventType.equals('payment_intent.payment_failed')) {
             Map<String, Object> data = (Map<String, Object>) payload.get('data');
             Map<String, Object> paymentIntent = (Map<String, Object>) data.get('object');

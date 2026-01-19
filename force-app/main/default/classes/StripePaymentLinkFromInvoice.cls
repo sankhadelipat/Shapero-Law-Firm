@@ -67,6 +67,7 @@ public with sharing class StripePaymentLinkFromInvoice {
             List<String> bodyParts = new List<String>();
             bodyParts.add('mode=payment');
             bodyParts.add('customer=' + EncodingUtil.urlEncode(customerId, 'UTF-8'));
+            bodyParts.add('payment_intent_data[setup_future_usage]=off_session');
             bodyParts.add('success_url=' + EncodingUtil.urlEncode('https://test_success.com', 'UTF-8'));
             bodyParts.add('cancel_url=' + EncodingUtil.urlEncode('https://test_error.com', 'UTF-8'));
             // Metadata
