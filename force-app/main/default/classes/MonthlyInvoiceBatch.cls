@@ -1,6 +1,4 @@
-public class MonthlyInvoiceBatch implements Database.Batchable<SObject>, Database.Stateful {
-    private static Map<String, Id> productCache = new Map<String, Id>();
-
+public class MonthlyInvoiceBatch implements Database.Batchable<SObject> {
     public Database.QueryLocator start(Database.BatchableContext bc) {
         Date today = Date.today();
 
@@ -109,7 +107,7 @@ public class MonthlyInvoiceBatch implements Database.Batchable<SObject>, Databas
 
         // Create line items for retainer
         List<Invoice_Line_Item__c> retainerLines = new List<Invoice_Line_Item__c>();
-        Id retainerProductId = getProductId('Monthly Retainer');
+        Id retainerProductId = ProductUtil.getProductId('Monthly Retainer');
 
         for (Invoice__c invoice : finalizedInvoices) {
             if (invoice.Contract__r.Contract_Type__c != 'Retainer')
@@ -135,12 +133,5 @@ public class MonthlyInvoiceBatch implements Database.Batchable<SObject>, Databas
 
     public void finish(Database.BatchableContext bc) {
         // No post-processing needed
-    }
-
-    private static Id getProductId(String productName) {
-        if (!productCache.containsKey(productName)) {
-            productCache.put(productName, [SELECT Id FROM Product2 WHERE Name = :productName LIMIT 1].Id);
-        }
-        return productCache.get(productName);
     }
 }
