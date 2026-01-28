@@ -1,4 +1,6 @@
-public class MonthlyInvoiceBatch implements Database.Batchable<SObject> {
+public class MonthlyInvoiceBatch implements Database.Batchable<SObject>, Database.Stateful {
+    private Set<Id> finalizedInvoiceIds = new Set<Id>();
+
     public Database.QueryLocator start(Database.BatchableContext bc) {
         Date today = Date.today();
 
@@ -15,7 +17,7 @@ public class MonthlyInvoiceBatch implements Database.Batchable<SObject> {
                     Contract__r.Contract_Type__c,
                     Contract__r.Monthly_Fee__c
                 FROM Invoice__c
-                WHERE Status__c = 'Draft' AND End_Date__c = :today AND Contract__r.Contract_Type__c = 'Retainer'
+                WHERE Status__c = 'Draft' AND Contract__r.Contract_Type__c = 'Retainer'
             ]
         );
     }
@@ -31,6 +33,7 @@ public class MonthlyInvoiceBatch implements Database.Batchable<SObject> {
         for (Invoice__c invoice : scope) {
             invoice.Status__c = 'Finalized';
             finalizedInvoices.add(invoice);
+            finalizedInvoiceIds.add(invoice.Id);
         }
         update finalizedInvoices;
 
@@ -98,6 +101,8 @@ public class MonthlyInvoiceBatch implements Database.Batchable<SObject> {
                 Previous_Invoice__c = invoice.Id,
                 Start_Date__c = nextStart,
                 End_Date__c = nextEnd,
+                Invoice_Date__c = nextStart,
+                Due_Date__c = nextEnd.addDays(7),
                 Status__c = 'Draft'
             );
             nextInvoicesToCreate.add(nextInv);
@@ -132,6 +137,20 @@ public class MonthlyInvoiceBatch implements Database.Batchable<SObject> {
     }
 
     public void finish(Database.BatchableContext bc) {
-        // No post-processing needed
+        System.debug('Finalized Invoice Ids: ' + finalizedInvoiceIds);
+
+        List<InvoicePdfService.InvoiceRequest> requests = new List<InvoicePdfService.InvoiceRequest>();
+
+        for (Id invoiceId : finalizedInvoiceIds) {
+            InvoicePdfService.InvoiceRequest req = new InvoicePdfService.InvoiceRequest();
+            req.invoiceId = invoiceId;
+            req.invoiceType = 'monthly';
+            requests.add(req);
+        }
+
+        // Enqueue email sending job
+        if (!requests.isEmpty()) {
+            InvoicePdfService.sendInvoices(requests);
+        }
     }
 }

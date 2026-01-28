@@ -28,6 +28,8 @@ public class ContractService {
                 Contract__c = con.Id,
                 Start_Date__c = startDate,
                 End_Date__c = lastDayOfMonth,
+                Invoice_Date__c = startDate,
+                Due_Date__c = lastDayOfMonth.addDays(7),
                 Status__c = 'Draft'
             );
 

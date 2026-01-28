@@ -6,7 +6,7 @@
  * Last Modified By: Lax
  * Last Modified On: Jan 6, 2026
  * Description     : This class implements to sent bulk email to customers with invoices
- *  
+ *
  * Change History  :
  *  Date          │   Author     │   Change
  * ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
@@ -15,58 +15,103 @@
  */
 
 public class SendInvoicePdfQueueable implements Queueable, Database.AllowsCallouts {
-	private List<Id> invoiceIds;
+    private Map<Id, String> invoiceIdToTypeMap;
 
-    public SendInvoicePdfQueueable(List<Id> invoiceIds) {
-        this.invoiceIds = invoiceIds;
+    public SendInvoicePdfQueueable(Map<Id, String> invoiceIdToTypeMap) {
+        this.invoiceIdToTypeMap = invoiceIdToTypeMap;
     }
 
     public void execute(QueueableContext context) {
+        System.debug('SendInvoicePdfQueueable - invoiceIdToTypeMap: ' + invoiceIdToTypeMap);
 
-		system.debug('SendInvoicePdfQueueable - invoiceIds: ' + invoiceIds);
-        if (invoiceIds == null || invoiceIds.isEmpty()) {
+        if (invoiceIdToTypeMap == null || invoiceIdToTypeMap.isEmpty()) {
             return;
         }
 
+        // -----------------------------
+        // Load invoices + recipients
+        // -----------------------------
         List<Invoice__c> invoices = [
-            SELECT Id,
-                   Name,
-                   Account__c,
-                   Account__r.PersonEmail,
-                   Account__r.Name,
-                   Lead__c,
-                   Lead__r.Email,
-                   Lead__r.Name,
-                   Stripe_Payment_Link__c
+            SELECT
+                Id,
+                Name,
+                Account__c,
+                Account__r.PersonContactId,
+                Account__r.PersonEmail,
+                Account__r.Name,
+                Lead__c,
+                Lead__r.Email,
+                Lead__r.Name,
+                Stripe_Payment_Link__c
             FROM Invoice__c
-            WHERE Id IN :invoiceIds
+            WHERE Id IN :invoiceIdToTypeMap.keySet()
         ];
-		system.debug('Invoices: ' + invoices);
+        system.debug('Invoices: ' + invoices);
 
+        // -----------------------------
+        // Load templates once
+        // -----------------------------
+        Map<String, Id> templateByType = new Map<String, Id>();
+
+        List<EmailTemplate> templates = [
+            SELECT Id, DeveloperName
+            FROM EmailTemplate
+            WHERE DeveloperName IN ('Initial_Invoice_Template', 'Monthly_Invoice_Template')
+        ];
+
+        for (EmailTemplate et : templates) {
+            if (et.DeveloperName == 'Initial_Invoice_Template') {
+                templateByType.put('initial', et.Id);
+            } else if (et.DeveloperName == 'Monthly_Invoice_Template') {
+                templateByType.put('monthly', et.Id);
+            }
+        }
+        system.debug('templateByType: ' + templateByType);
 
         List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
+        Set<Id> emailedInvoiceIds = new Set<Id>();
 
         for (Invoice__c inv : invoices) {
-			system.debug('inv.Stripe_Payment_Link__c: ' + inv.Stripe_Payment_Link__c);
-
-            String emailTo = resolveEmail(inv);
-            if (String.isBlank(emailTo)) {
+            String invType = invoiceIdToTypeMap.get(inv.Id);
+            if (String.isBlank(invType))
                 continue;
+
+            // -----------------------------
+            // Resolve recipient
+            // -----------------------------
+            Id targetObjectId;
+            String emailAddress;
+
+            if (invType == 'initial') {
+                if (inv.Lead__c != null && inv.Lead__r.Email != null) {
+                    targetObjectId = inv.Lead__c;
+                    emailAddress = inv.Lead__r.Email;
+                }
+            } else if (invType == 'monthly') {
+                if (inv.Account__r.PersonContactId != null && inv.Account__r.PersonEmail != null) {
+                    targetObjectId = inv.Account__r.PersonContactId;
+                    emailAddress = inv.Account__r.PersonEmail;
+                }
             }
 
-            String clientName = resolveName(inv);
-            String msgBody = 'Dear '+ clientName +',\n\n' +
-                    'We hope this message finds you well.\n\n' +
-                    'Please find attached the invoice for the initial case fee related to your engagement with our firm. ' +
-                    'For your convenience, a secure payment link is included directly within the attached invoice PDF.\n\n' +
-                    'Once payment is completed, you will receive an automatic confirmation. ' +
-                    'If you have any questions regarding the invoice or need assistance with the payment, ' +
-                    'please feel free to contact us.\n\n' +
-                    'We appreciate your prompt attention and look forward to working with you.\n\n\n' + 
-                    'Warm Regards,\n' + 
-                    'Sarah Shapero\n' + 
-                    'Shapero Lawfirm';
+            if (targetObjectId == null || String.isBlank(emailAddress)) {
+                System.debug('No recipient found for Invoice ' + inv.Id);
+                continue; // skip if no recipient
+            }
 
+            // -----------------------------
+            // Resolve template
+            // -----------------------------
+            Id templateId = templateByType.get(invType);
+
+            if (templateId == null) {
+                System.debug('No email template found for type: ' + invType);
+                continue; // skip if no template
+            }
+
+            // -----------------------------
+            // Render PDF
+            // -----------------------------
             PageReference pdfPage = Page.InvoicePdfVFpage;
             pdfPage.getParameters().put('id', inv.Id);
 
@@ -78,49 +123,47 @@ public class SendInvoicePdfQueueable implements Queueable, Database.AllowsCallou
                 continue;
             }
 
+            // -----------------------------
+            // Build email
+            // -----------------------------
             Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
             attachment.setFileName('Invoice_' + inv.Name + '.pdf');
             attachment.setBody(pdfBlob);
 
             Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
-            msg.setUseSignature(false); // DISABLE THE SIGNATURE HERE
-            msg.setToAddresses(new String[]{ emailTo });
-            msg.setSubject('Invoice ' + inv.Name);
-            msg.setPlainTextBody(msgBody);
-            msg.setFileAttachments(
-                new Messaging.EmailFileAttachment[]{ attachment }
-            );
+            msg.setTemplateId(templateId);
+            msg.setTargetObjectId(targetObjectId);
+            msg.setWhatId(inv.Id);
+            msg.setSaveAsActivity(false);
+            msg.setUseSignature(true);
+            // msg.setToAddresses(new List<String>{ emailAddress });
+            // msg.setSubject('Invoice ' + inv.Name);
+            // msg.setPlainTextBody(msgBody);
+            msg.setFileAttachments(new List<Messaging.EmailFileAttachment>{ attachment });
 
             emails.add(msg);
+            emailedInvoiceIds.add(inv.Id);
         }
 
-		system.debug('emails: ' + emails);
+        System.debug('emails: ' + emails);
         if (!emails.isEmpty()) {
-            Messaging.sendEmail(emails);
+            try {
+                Messaging.sendEmail(emails);
+
+                // -------------------------
+                // UPDATE STATUS → SENT
+                // -------------------------
+                List<Invoice__c> invoicesToUpdate = new List<Invoice__c>();
+                for (Id invId : emailedInvoiceIds) {
+                    invoicesToUpdate.add(new Invoice__c(Id = invId, Status__c = 'Sent'));
+                }
+
+                if (!invoicesToUpdate.isEmpty()) {
+                    update invoicesToUpdate;
+                }
+            } catch (Exception e) {
+                System.debug('Email sending failed: ' + e.getMessage());
+            }
         }
-    }
-
-    private static String resolveEmail(Invoice__c inv) {
-
-        if (inv.Account__r != null && String.isNotBlank(inv.Account__r.PersonEmail)) {
-            return inv.Account__r.PersonEmail;
-        }
-
-        if (inv.Lead__r != null && String.isNotBlank(inv.Lead__r.Email)) {
-            return inv.Lead__r.Email;
-        }
-
-        return 'lax@delipat.com';
-    }
-    private static String resolveName(Invoice__c inv) {
-
-        if (inv.Account__r != null && String.isNotBlank(inv.Account__r.Name)) {
-            return inv.Account__r.Name;
-        } 
-        else if (inv.Lead__r != null && String.isNotBlank(inv.Lead__r.Name)) {
-            return inv.Lead__r.Name;
-        }
-
-        return '';
     }
 }
