@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Duration_on_Unqualified__c</fullName>
+    <externalId>false</externalId>
+    <formula>/* Time spent in Unqualified */
+
+/* WEEKS */
+IF(
+    FLOOR(Time_spent_in_Unqualified__c / 10080) &gt; 0,
+    TEXT(FLOOR(Time_spent_in_Unqualified__c / 10080)) &amp;
+    IF(FLOOR(Time_spent_in_Unqualified__c / 10080) = 1, &quot; Week &quot;, &quot; Weeks &quot;),
+    &quot;&quot;
+) &amp;
+
+/* DAYS */
+IF(
+    FLOOR(MOD(Time_spent_in_Unqualified__c, 10080) / 1440) &gt; 0,
+    TEXT(FLOOR(MOD(Time_spent_in_Unqualified__c, 10080) / 1440)) &amp;
+    IF(FLOOR(MOD(Time_spent_in_Unqualified__c, 10080) / 1440) = 1, &quot; Day &quot;, &quot; Days &quot;),
+    &quot;&quot;
+) &amp;
+
+/* HOURS */
+IF(
+    FLOOR(MOD(Time_spent_in_Unqualified__c, 1440) / 60) &gt; 0,
+    TEXT(FLOOR(MOD(Time_spent_in_Unqualified__c, 1440) / 60)) &amp;
+    IF(FLOOR(MOD(Time_spent_in_Unqualified__c, 1440) / 60) = 1, &quot; Hour &quot;, &quot; Hours &quot;),
+    &quot;&quot;
+) &amp;
+
+/* MINUTES — no decimals */
+IF(
+    ROUND(MOD(Time_spent_in_Unqualified__c, 60), 0) &gt; 0,
+    TEXT(ROUND(MOD(Time_spent_in_Unqualified__c, 60), 0)) &amp;
+    IF(ROUND(MOD(Time_spent_in_Unqualified__c, 60), 0) = 1, &quot; Minute&quot;, &quot; Minutes&quot;),
+    &quot;&quot;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Total Duration on Unqualified</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

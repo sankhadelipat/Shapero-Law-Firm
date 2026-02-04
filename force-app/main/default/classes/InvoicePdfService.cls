@@ -122,7 +122,11 @@ public class InvoicePdfService {
             }
         }
 
-        if (!invoiceIdToTypeMap.isEmpty())
-            System.enqueueJob(new SendInvoicePdfQueueable(invoiceIdToTypeMap));
+        if (!invoiceIdToTypeMap.isEmpty()){
+            Integer delayInMinutes = 1; // Minimum 1 minutes delay
+            ID jobId = System.enqueueJob(new SendInvoicePdfQueueable(invoiceIdToTypeMap), delayInMinutes);
+            system.debug('jonId: ' + jobId);
+            //System.enqueueJob(new SendInvoicePdfQueueable(invoiceIdToTypeMap));
+        }
     }
 }

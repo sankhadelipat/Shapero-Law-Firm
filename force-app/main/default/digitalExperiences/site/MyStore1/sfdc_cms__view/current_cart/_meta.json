@@ -1,5 +1,0 @@
-{
-  "apiName" : "current_cart",
-  "type" : "sfdc_cms__view",
-  "path" : "views"
-}

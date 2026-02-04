@@ -1,0 +1,271 @@
+<apex:page standardController="Invoice__c"
+    extensions="InvoicePdfController"
+    renderAs="pdf"
+    showHeader="false"
+    standardStylesheets="false"
+    applyHtmlTag="false">
+
+
+
+<html>
+<head>
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11px;
+        color: #1f2937;
+        margin: 30px;
+    }
+
+    /* ================= TITLE ================= */
+    .invoice-title {
+        font-size: 36px;
+        font-weight: bold;
+        color: #1b96ff;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+    }
+
+    /* ================= HEADER ================= */
+    .header-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 25px;
+    }
+
+    .firm-details,
+    .contact-details {
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    .contact-details {
+        text-align: right;
+    }
+
+    /* ================= SECTION ================= */
+    .section-title {
+        font-size: 14px;
+        font-weight: bold;
+        margin: 25px 0 10px;
+        border-bottom: 2px solid #e5e7eb;
+        padding-bottom: 4px;
+    }
+
+    /* ================= META ================= */
+    .meta-table {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .meta-table td {
+        padding: 6px 0;
+        font-size: 11px;
+    }
+
+    .meta-label {
+        font-weight: bold;
+        color: #374151;
+    }
+
+    /* ================= ITEMS TABLE ================= */
+    .items-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+    .items-table th {
+        background: #f3f4f6;
+        padding: 8px;
+        border: 1px solid #d1d5db;
+        font-size: 11px;
+        text-align: center;
+    }
+
+    .items-table td {
+        padding: 8px;
+        border: 1px solid #e5e7eb;
+        font-size: 11px;
+    }
+
+    .items-table tr:nth-child(even) {
+        background: #fafafa;
+    }
+
+    .right {
+        text-align: center;
+    }
+
+    /* ================= TOTAL ================= */
+    .total-table {
+        width: 40%;
+        float: center;
+        margin-top: 20px;
+        border-collapse: collapse;
+    }
+
+    .total-table td {
+        padding: 8px;
+        border: 1px solid #d1d5db;
+        font-size: 12px;
+    }
+
+    .total-label {
+        font-weight: bold;
+        background: #f3f4f6;
+    }
+
+    .total-amount {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    /* ================= PAY BUTTON ================= */
+    .pay-btn {
+        display: inline-block;
+        margin-top: 80px;
+        padding: 14px 36px;
+        background-color: #1b96ff;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 999px;
+        float:left:
+    }
+</style>
+</head>
+
+<body>
+
+<!-- ================= TITLE ================= -->
+<div class="invoice-title">INVOICE</div>
+
+<!-- ================= HEADER (UNCHANGED ROW) ================= -->
+<table class="header-table">
+    <tr>
+        <!-- LEFT COLUMN -->
+        <td>
+            <div class="firm-details">
+                <b>Shapero Law Firm</b><br/>
+                100 Pine St Ste 530<br/>
+                San Francisco, CA 94111
+            </div>
+        </td>
+
+        <!-- RIGHT COLUMN -->
+        <td class="contact-details">
+            sarah@shaperolawfirm.com<br/>
+            +1 (415) 273-3504
+        </td>
+    </tr>
+</table>
+   <table class="firm-details">
+    <tr>
+        <td>
+            <b>Bill To:</b>
+            {!billingAccount.BillingStreet}
+            {!billingAccount.BillingCity}, {!billingAccount.BillingState} {!billingAccount.BillingPostalCode}
+            {!billingAccount.BillingCountry}
+        </td>
+    </tr>
+
+    <tr style="height:7px;"></tr>
+
+    <tr>
+        <td>
+            <b>Ship To:</b>
+            {!billingAccount.BillingStreet}
+            {!billingAccount.BillingCity}, {!billingAccount.BillingState} {!billingAccount.BillingPostalCode}
+            {!billingAccount.BillingCountry}
+        </td>
+    </tr>
+</table>
+
+
+<!-- ================= META ================= -->
+<div class="section-title">Invoice Details</div>
+
+<table class="meta-table">
+    <tr>
+        <td><span class="meta-label">Invoice No:</span><b>{!invoice.Name}</b> </td>
+        <td><span class="meta-label">Invoice Date:</span><b>{!TEXT(invoice.Invoice_Date__c)}</b></td>
+    </tr>
+    <tr>
+        <td><span class="meta-label">Terms:</span> On Receipt</td>
+        <td><span class="meta-label">Due Date:</span> {!TEXT(invoice.Due_Date__c)}</td>
+    </tr>
+</table>
+
+<!-- ================= ITEMS ================= -->
+<div class="section-title">Invoice Items</div>
+
+<table class="items-table">
+    <tr>
+        <th>Fee Type</th>
+        <th>Description</th>
+        <th>Qty</th>
+        <th>Rate</th>
+        <th>Amount</th>
+    </tr>
+
+    <apex:repeat value="{!lineItems}" var="li">
+        <tr>
+            <td class="right">{!li.Fee_Type__r.Name}</td>
+            <td class="right">{!li.Description__c}</td>
+            <td class="right">{!li.Quantity__c}</td>
+            <td class="right">
+                $<apex:outputText value="{0,number,###,###.00}">
+                    <apex:param value="{!li.Unit_Price__c}"/>
+                </apex:outputText>
+            </td>
+            <td class="right">
+                $<apex:outputText value="{0,number,###,###.00}">
+                    <apex:param value="{!li.Line_Amount__c}"/>
+                </apex:outputText>
+            </td>
+        </tr>
+    </apex:repeat>
+
+    <!-- Remove comment if need to show the expenses -->
+    <!-- <apex:repeat value="{!expenses}" var="ex">
+        <tr>
+            <td class="right">*</td>
+            <td class="right">{!ex.Description__c}</td>
+            <td class="right">{!ex.Approval_Date__c}</td>
+            <td class="right">1</td>
+            <td class="right">
+                $<apex:outputText value="{0,number,###,###.00}">
+                    <apex:param value="{!ex.Amount__c}"/>
+                </apex:outputText>
+            </td>
+        </tr>
+    </apex:repeat> -->
+</table>
+
+<!-- ================= TOTAL ================= -->
+<table class="total-table" style="float:left;text-align=center;">
+    <tr>
+        <td class="total-label">Total</td>
+        <td class="right total-amount">
+            $<apex:outputText value="{0,number,###,###.00}">
+                <apex:param value="{!invoice.Total_Amount__c}"/>
+            </apex:outputText>
+        </td>
+    </tr>
+</table>
+
+<!-- ================= PAY BUTTON ================= -->
+<div>
+    <a href="{!$Label.StripePaymentVfUrl}?invoiceId={!invoice.Id}"
+       target="_blank"
+       class="pay-btn">
+        View and Pay
+    </a>
+</div>
+
+
+</body>
+</html>
+</apex:page>

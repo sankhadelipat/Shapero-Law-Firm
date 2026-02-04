@@ -155,7 +155,7 @@ public class SendInvoicePdfQueueable implements Queueable, Database.AllowsCallou
                 // -------------------------
                 List<Invoice__c> invoicesToUpdate = new List<Invoice__c>();
                 for (Id invId : emailedInvoiceIds) {
-                    invoicesToUpdate.add(new Invoice__c(Id = invId, Status__c = 'Sent'));
+                    invoicesToUpdate.add(new Invoice__c(Id = invId, Status__c = 'Sent', Sent_Date__c = Date.today()));
                 }
 
                 if (!invoicesToUpdate.isEmpty()) {

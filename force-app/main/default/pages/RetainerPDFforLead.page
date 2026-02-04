@@ -1,0 +1,473 @@
+<apex:page renderAs="pdf" applyBodyTag="false" showHeader="false" sidebar="false">
+<apex:outputPanel style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 13pt; line-height: 1.6; padding:20px; color:#333;">
+    
+    <div style="background-color:#FFFFFF; padding:15px 0; text-align:center; border-radius:8px 8px 0 0;">
+        <h1 style="margin:0; font-size:20pt; color:black; font-weight:bold; letter-spacing:1px;">RETAINER AGREEMENT</h1>
+        <h1 style="margin:0; font-size:20pt; color:black; font-weight:bold; letter-spacing:1px;"> ATTORNEY-CLIENT COMMUNICATION</h1>
+    </div>
+    
+    <!-- Agreement Date and Parties -->
+    <div style="margin-top:20px; padding:10px 15px; background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0;text-align:justify;">
+            1. THIS AGREEMENT is made this date, 
+            <strong>
+                <apex:outputText value="{0,date,MMMM}"><apex:param value="{!TODAY()}"/></apex:outputText> 
+                <apex:outputText value="{0,date,d}"><apex:param value="{!TODAY()}"/></apex:outputText>, 
+                <apex:outputText value="{0,date,yyyy}"><apex:param value="{!TODAY()}"/></apex:outputText>
+            </strong>, between <strong>Shapero Law Firm</strong> (hereinafter “the Firm”), and 
+            <strong>Mahesh More</strong> (Client), hereinafter referred to as “Client(s).”
+        </p>
+    </div>
+    
+    <div style="margin-top:-10px; padding:10px 15px;background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0;text-align:justify;">
+            2. MATTERS COVERED :
+            This Agreement covers litigation pertaining to Client’s relationship with Client’s mortgage lender, servicer and/or related parties pertaining to Client’s property located at 
+        <strong>Sonaj, Nashik, Maharashtra, 423208 </strong> the alleged wrongful foreclosure of this property, personal injuries associated with lender’s conduct, and the issues related to payment of the mortgage loan. This agreement does not cover any bankruptcy services.
+        </p>
+    </div>
+    
+     <div style="margin-top:-10px; padding:10px 15px; background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0;text-align:justify;">
+            3. SERVICES TO BE PERFORMED BY ATTORNEY:  
+            Attorney agrees to perform all litigation services necessary to preserve Client’s rights, 
+            including but not limited to the following: reviewing Client’s files and determining the feasibility of a 
+            lawsuit or other legal action against adverse parties, and, if feasible, filing and prosecuting a lawsuit.  Where advisable the Firm will prosecute appeals under this agreement. The Firm, however, reserves the right not to prosecute any appeal as it may affect the rights of all clients.  This agreement covers one litigation pertaining to the property above on behalf of client. If client wishes other lawsuits to be filed an additional agreement and fee would need to be negotiated.  To keep costs down the firm may use contract attorneys and the firm may employ contract attorneys from time to time to assist with Client’s case.  Client consents to the use of contract attorneys.   Attorney will endeavor to respond to all emails received during business hours by no later than the next business day.  If the Client would prefer a phone call rather than an email communication, Client agrees to email Attorney to schedule a time to speak in order to maximize efficiency.  
+        </p>
+    </div>
+    
+    <div style="margin-top:-10px; padding:10px 15px; background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0;text-align:justify;">
+            4. FEE AGREEMENT:    
+           Attorney fees are not set by law and are negotiable between Attorney and Client. 
+           Client acknowledges and agrees that Attorney’s billable rate is $600 an hour for Sarah Shapero, $495 an hour for senior associates, $295-$325 an hour for junior associates, and $150 an hour for investigators and paralegals.  
+           However, in lieu of paying Attorney’s hourly rate, 
+           Client agrees to pay, on a flat fee basis, on a flat fee basis<!-- estimated value --> 12344 (matter) on the effective date of this Agreement.
+           Thereafter, Client is to pay <!--Monthly Fee--> 12234 per month (plus costs as detailed below) Thereafter, Client is to pay Monthly Fee per month (plus costs as detailed below) on the 
+            <strong>
+                <apex:outputText value="{0,date,d}"><!--<apex:param value="{!StartDate}"/>--></apex:outputText> 
+                of the month beginning on 
+                <apex:outputText value="{0,date,MMMM}"><!--<apex:param value="{!StartDate}"/>--></apex:outputText> 
+                <apex:outputText value="{0,date,d}"><!--<apex:param value="{!StartDate}"/>--></apex:outputText>,
+                <apex:outputText value="{0,date,yyyy}"><!--<apex:param value="{!StartDate}"/>--></apex:outputText>
+            </strong>
+            and continuing thereafter on the <strong>
+                <apex:outputText value="{0,date,d}"><!--<apex:param value="{!StartDate}"/>--></apex:outputText>
+            </strong> of each month until Attorney’s services are completed or terminated.Client agrees to have these amounts automatically withdrawn or debited each month by filing out the attached Credit Card or ACH Pre-Authorization Form. 
+            <strong><u> If the payment is not made in the month that it is due, Attorney will immediately start taking 
+            steps to be relieved as counsel in any pending action.</u></strong>   
+            The cost of services will go up 5% on each one year anniversary of retention.  
+            The client understands that most of these cases resolve before trial.  Therefore, if this case 
+            proceeds to within one month of trial, the flat fee payment arrangement will terminate and a new agreement will be entered into between Attorney and Client to cover trial expenses and attorneys fees.
+        </p>            
+    </div>
+   <div style="margin-left:20px;">
+    <div style="margin-top:-5px; padding:10px 15px; background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0; text-align:justify;">
+            a. IMPORTANCE OF MONTHLY PAYMENTS:
+            Client acknowledges that the $2,000.00 monthly payment is due every month and that failure to pay the Firm this amount is grounds for Firm’s immediate withdrawal from any lawsuit filed. 
+            If client does not pay his/her monthly flat rate payment on the date that it is due, client will be liable for the full hourly amount that Firm has spent on Client’s case, less the monthly 
+            flat rate payments that were received. Client understands that litigation at an hourly rate is expensive – for instance – drafting the initial complaint might run as much as $10,000.00 itself, 
+            if a client paid for that hourly, under the rates set forth in this agreement. However, client will not be responsible for the hourly rates if the client pays the monthly retainer.
+        </p>          
+    </div>
+</div>
+
+  <div style="margin-left:20px;">
+    <div style="margin-top:-10px; padding:10px 15px; background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0; text-align:justify;">
+            b. MONETARY RECOVERY TO THE CLIENT:
+            If the case settles for non-monetary relief, such as a loan modification, or credit repair, client does not owe the attorney any 
+            percent of the value of such a recovery.  However, if money is awarded to Client, or if money is recovered for client, 
+            Attorney shall receive 33% of the gross amount of any such money.  If a lawsuit is progressing and has gone past the point 
+            of the first mandatory settlement conference then 40% of the gross amount of any monetary settlement or recovery shall be the contingency amount due to the greater amount of work required.  
+            Any settlement or award shall first be deposited to Attorney Client IOLTA Trust Account and then disbursed to Client.  In the event that attorney’s fees are obtained as part of a settlement, a judgment, or by court order, 
+            such shall be payable to Attorney and the Firm shall keep all attorney’s fees earned.
+            </p>
+    </div>
+</div>
+
+<div style="margin-top:-10px; padding:10px 15px; background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0;text-align:justify;">
+            5. COSTS: 
+           Attorney will incur various costs and expenses in performing legal services under this Agreement.  
+           Although the Attorney may advance said costs, Client agrees to pay for all costs, disbursements and expenses 
+           paid or owed by Client in connection with this matter as such costs, disbursements and expenses are incurred.  
+           Client will remain responsible for the actual fees/costs incurred in accordance with this Agreement. 
+           I understand the monthly charges and filing fees will be due on a monthly basis, and if I fail to pay these fees, 
+           The Shapero Law firm will refuse representation and seek substitution.<strong><u> Client Initial </u></strong>
+        </p>
+    </div>
+    
+<div style="margin-left:20px;">
+    <div style="margin-top:-10px; padding:10px 15px; background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0; text-align:justify;">
+           a. STANDARD COSTS:
+           The following are typical costs incurred in most litigations:  Filing Fees for filing a lawsuit in Superior 
+           Court -- $435.00.  Service of the lawsuit on an in state Defendant -- $75.00.  Service of the lawsuit out of 
+           state -- $150.00.  Filing a Lis Pendens (which is a cloud on title filed at the County Recorders office -- $100.00). Unlawful 
+           Detainer answers are approximately $300.00 per occupant. A client should expect to pay between $550 and $1,000.00 in filing 
+           fees to commence the lawsuit.  Later, if client continues toward trial other costs may be necessary to put on a good trial, 
+           such as deposition expenses and expert witnesses fees.  The majority of cases do not proceed so far towards trial that depositions 
+           and expert witness fees are necessary, but if trial becomes necessary these fees can be high.  A deposition could cost approximately 
+           $2,000.00.  Retaining experts for trial is even more costly.
+         </p>
+    </div>
+</div>
+<div style="margin-left:20px;">
+    <div style="margin-top:-10px; padding:10px 15px; background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0; text-align:justify;">
+           b. COSTS ON DISMISSAL:  
+          Client further understands that should Judgment be rendered against Client at the trial of this action, or 
+          Client’s claim fails the Client may be responsible to pay any costs which the Court may award to the opposing 
+          party or parties, including their attorney fees.<u>This does pose a risk</u> as an attorney fee award may be imposed 
+          against you.  Usually this outcome can be avoided by voluntary dismissal if the action starts doing poorly, 
+          but it is a possibility if the action suddenly fails.
+         </p>
+    </div>
+</div>
+
+ <div style="margin-top:-10px; padding:10px 15px; background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0;text-align:justify;">
+            6. WITHDRAWAL: 
+          Attorney may withdraw as Client’s Attorney and be discharged of its obligations under this Agreement 
+          at any time upon giving reasonable notice, at such time all unpaid charges will become due and payable.  
+          Client also may terminate attorney at any time.
+        </p>
+    </div>
+    
+      <div style="margin-top:-10px; padding:10px 15px; background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0;text-align:justify;">
+            7. ATTORNEY’S LIEN:   
+        Client agrees to grant Attorney a lien on any and all claims, causes of action, or attorney fees due pursuant to 
+        this Agreement.  The lien, to ensure payment of any sums owing to attorney at the conclusion of services performed, 
+        will attach to any recovery Client may obtain, or upon Client’s real or personal property.  
+        Attorney may compel payment of fees and costs from any such funds recovered on behalf of Client, 
+        even if Attorney has been discharged before the end of the case.  Client may seek the opinion of an independent 
+        lawyer prior to agreeing to this lien. 
+        </p>
+    </div>
+    
+    <div style="margin-top:-10px; padding:10px 15px; background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0;text-align:justify;">
+            8. TAX DISCLOSURE AND ACKNOWLEDGMENT:    
+       CLIENT IS ADVISED TO OBTAIN INDEPENDENT AND COMPETENT TAX ADVICE regarding potential settlements which may alter the 
+       terms of Client’s secured debt and awards of damages in civil litigation which may have significant tax consequences.  
+       The Firm does not employ tax attorneys nor offer tax advice.  Before Client consents to any settlement or award of 
+       damages, Client may wish to consult a tax professional. The Firm is not responsible for any tax liability Client might 
+       incur as a result of its obtaining settlements which alter the terms of Client’s secured debt, awards of damages in civil 
+       litigation, or a recovery of money damages on Client’s behalf.
+        </p>
+    </div>
+    
+     <div style="margin-top:-10px; padding:10px 15px; background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0;text-align:justify;">
+           9. ARBITRATION OF DISPUTES:       
+       The parties elect herein that any fee disputes be resolved pursuant to the fee arbitration procedures of the State 
+       Bar of California, in any dispute subject to the jurisdiction of the State of California over attorney's fees, 
+       charges, costs or expenses, as set forth in California Business and Professions Code § 6200, et seq.  If, after 
+       receiving a notice of this right to arbitrate, you do not elect to proceed under the State Bar fee arbitration 
+       procedures, and do not file a request for fee arbitration within 30 days, any dispute over fees, charges, costs or 
+       expenses, will be resolved by binding arbitration.
+        </p>
+        
+       <p style="margin:0 0 10px 0;text-align:justify;">     
+        &nbsp;&nbsp;&nbsp; Client confirms that they have read and understand the paragraphs above, and voluntarily agree to binding arbitration.
+        In doing so, Client voluntarily gives up important constitutional rights to trial by judge or jury, as well as 
+        rights to appeal. Client is advised that Client has the right to have an independent attorney of Client’s choice 
+        review these arbitration provisions, and this entire agreement, prior to initialing signing this Agreement.
+        </p>
+    </div>
+    
+    <div style="margin-top:-10px; padding:10px 15px; background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0;text-align:justify;">
+          <b> 10.  REPRESENTATIONS:   
+           Borrower understands that Attorney has not advised Borrower to purposely default on Borrower’s obligations owing 
+           to any creditors or discontinue payments of Borrower’s monthly mortgage payments, property taxes, and/or 
+           property insurance. Borrower understands that failure to remain current on Borrower’s property insurance 
+           premiums will likely result in Borrower’s property being exposed to uninsured risk. Borrower has been advised 
+           that should Borrower stop paying the Subject Property’s mortgage payment, it likely will result in the 
+           foreclosure of the Subject Property as well as negative credit and tax consequences. It is expressly agreed and 
+           understood that no promises or guarantees as to the outcome of this matter have been made to Borrower by 
+           Attorney.</b>
+        </p>
+    </div>
+    
+      <div style="margin-top:-10px; padding:10px 15px; background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0;text-align:justify;">
+           11. LEGAL CONSTRUCTION:  In case any one or more of the provisions contained in this Agreement shall be held 
+           o be invalid in any respect, such shall not affect any other provisions of this Agreement.
+        </p>
+    </div>
+    
+     <div style="margin-top:-10px; padding:10px 15px; background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0;text-align:justify;">
+          12. CONFIDENTIALITY OF SETTLEMENTS:  Neither Firm nor any of its attorneys are able to be bound by 
+          confidentiality provisions in settlements which would in the opinion of the Firm interfere with the prosecution 
+          of other clients’ cases.
+        </p>
+    </div>
+    
+     <div style="margin-top:-10px; padding:10px 15px; background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0;text-align:justify;">
+        13. Client has read and understands and agrees to the terms of this Agreement.
+        </p>
+        <p style="margin:0 0 10px 0; text-align:justify;">
+    <b><u>
+        It is not necessary to pay a third party to arrange for a loan modification or other form of forbearance from 
+        your mortgage lender or servicer. You may call your lender directly to ask for a change in your loan terms. 
+        Nonprofit housing counseling agencies also offer these and other forms of borrower assistance free of charge. 
+        A list of nonprofit housing counseling agencies approved by the United States Department of Housing and Urban 
+        Development (HUD) is available from your local HUD office or by visiting 
+        <a href="https://www.hud.gov" style="color:#0000EE; text-decoration:underline;">www.hud.gov</a>.
+    </u></b>
+      </p>
+    </div>
+    
+      <div style="margin-top:-10px; padding:10px 15px; background-color:#FFFFFF; border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px 0;text-align:justify;">
+         14. INDEMNIFICATION: In delivering the services contemplated under this Agreement, Attorney must rely on 
+         information and instructions provided by you.  Should you make any misrepresentations or omissions, or there be 
+         inaccuracies in the information that your provided to us or any instructions that you provide us in connection with 
+         your Claims, you agree that you will defend, indemnify and hold Attorney harmless from all obligations, costs, fees, 
+         losses, liabilities, claims, judgments, actions, damages and expenses, including but not limited to reasonable 
+         attorneys’ fees, expenses and court costs, paid, suffered, incurred or sustained by us arising out of or in connection 
+         with any such misrepresentation, omission, or inaccurary in information and/or instruction on your part. 
+        </p>
+         <p style="margin:0 0 10px 0;text-align:justify;">
+        &nbsp;&nbsp;&nbsp;I certify and acknowledge that I have had the opportunity to read this Agreement.  I further state that I have 
+        voluntarily entered into this Agreement fully aware of its terms and conditions as of the date Attorney first 
+        provided services.  All clients signing below agree to be liable, jointly and severally, for all obligations under 
+        this agreement.
+        </p>
+    </div>
+    
+  <!-- Signature Section -->
+<table style="width:100%; margin-top:30px; border-collapse:collapse; font-family:Arial, sans-serif; font-size:11pt;">
+    <tr>
+        <!-- Left side: CLIENT(S) -->
+        <td style="width:50%; vertical-align:top; padding:10px;">
+            <p style="margin:0; font-weight:bold;">CLIENT(S)</p>
+            <p style="margin:5px 0;"><!--{!Lead.FirstName} &nbsp;&nbsp;{!Lead.LastName}-->Mahesh More</p>
+
+            <p style="margin:8px 0;">
+                <strong>Date:</strong> ________________________
+            </p>
+
+            <p style="margin:8px 0;">
+                <strong>Signature:</strong> ____________________________
+            </p>
+        </td>
+
+        <!-- Right side: SHAPERO LAW FIRM -->
+        <td style="width:50%; vertical-align:top; padding:10px; text-align:right;">
+            <p style="margin:0; font-weight:bold;">SHAPERO LAW FIRM</p>
+            <p style="margin:5px 0;">Sarah Shapero</p>
+
+            <p style="margin:8px 0;">
+                <strong>Date:</strong> ________________________
+            </p>
+
+            <p style="margin:8px 0;">
+                <strong>Signature:</strong> ____________________________
+            </p>
+        </td>
+    </tr>
+</table>
+
+
+        <div style="margin-top:650px; padding:10px; border:1px solid #ccc; border-radius:6px;">
+        
+            <h3 style="text-align:center; text-decoration:underline; margin-bottom:15px;">
+                CREDIT CARD OR ACH PRE-AUTHORIZATION FORM
+            </h3>
+        
+            <p style="text-align:justify; margin:10px 0;">
+                In an effort to better serve our clients and simplify the billing experience, the Shapero Law Firm offers automatic
+                credit card or ACH payments. The information contained herein will be filed with your confidential client
+                information and kept secure.
+            </p>
+        
+            <p style="text-align:justify; margin:10px 0;">
+                This agreement between Client and Shapero Law Firm shall serve as authorization for Shapero Law Firm to charge or
+                automatically withdraw funds from Client’s credit card or Client’s financial institution on a monthly basis for
+                Client’s monthly retainer payment and costs (as outlined in Section 5 of the Retainer Agreement).
+            </p>
+        
+            <p style="text-align:justify; margin:10px 0;">
+                Shapero Law Firm shall send you an invoice for the charges to be automatically withdrawn five (5) days before the
+                charges are automatically withdrawn via email. If Client disputes any of the charges contained in the invoice,
+                Client agrees to notify Shapero Law Firm immediately and understands that, if no dispute is received on or before
+                the fifth (5th) day after the invoice is sent to Client, the amount stated in the invoice will be automatically
+                withdrawn or charged. Client understands that this authorization shall remain in effect until Client notifies
+                Shapero Law Firm that Client would like to cancel this authorization.
+            </p>
+        
+            <!-- Signature Section -->
+            <table style="width:100%; margin-top:30px; border-collapse:collapse; font-family:Arial, sans-serif; font-size:11pt;">
+                <tr>
+                    <td style="width:50%; vertical-align:top; padding:10px;">
+                        <p style="margin:8px 0;">
+                            ________________________
+                        </p>
+                        <strong>Date:</strong>
+                    </td>
+                    <td style="width:50%; vertical-align:top; padding:10px; text-align:right;">
+                        <p style="margin:8px 0;">
+                              ________________________
+                        </p>
+                         <strong>Client Signature:</strong> 
+                    </td>
+                </tr>
+            </table>
+        
+        </div>
+        
+        
+        <!-- CREDIT CARD & ACH AUTHORIZATION SECTION -->
+<div style="margin-top:30px; border:1px solid #ccc;padding:10px;border-radius:6px;">
+    <table style="width:100%; border:1px solid #ccc;padding:10px; border-collapse:collapse; font-family:Arial, sans-serif; font-size:11pt;border-radius:6px;">
+        <tr>
+            <th colspan="2" style="text-align:center;padding:8px;">
+               <span style="text-decoration:underline;">CREDIT CARD AUTHORIZATION</span>
+            </th>
+        </tr>
+
+        <tr>
+            <td style="width:35%; padding:8px;"><strong>Name on Credit Card:</strong></td>
+            <td style="padding:8px;">________________________________________</td>
+        </tr>
+
+        <tr>
+            <td style="padding:8px;"><strong>Type of Card (choose one):</strong></td>
+            <td style="padding:8px;">
+                <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; margin-right:6px;"></span> Visa &nbsp;&nbsp;&nbsp;
+                <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; margin-right:6px;"></span> Mastercard &nbsp;&nbsp;&nbsp;
+                <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; margin-right:6px;"></span> Other: ________________________
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding:8px;"><strong>Credit Card Number:</strong></td>
+            <td style="padding:8px;">________________________________________</td>
+        </tr>
+
+        <tr>
+            <td style="padding:8px;"><strong>Expiration Date (mm/yy):</strong></td>
+            <td style="padding:8px;">___________________</td>
+        </tr>
+
+        <tr>
+            <td style="padding:8px;"><strong>3 Digit Security Code:</strong></td>
+            <td style="padding:8px;">___________________</td>
+        </tr>
+
+        <tr>
+            <td style="padding:8px;"><strong>Billing Address:</strong></td>
+            <td style="padding:8px;">_________________________________________________________</td>
+        </tr>
+  
+        <tr>
+            <th colspan="2" style="text-align:center;padding:8px;">
+               <span style="text-decoration:underline;">ACH AUTHORIZATION</span>
+            </th>
+        </tr>
+
+        <tr>
+            <td style="padding:8px;"><strong>Name on Account:</strong></td>
+            <td style="padding:8px;">________________________________________</td>
+        </tr>
+
+        <tr>
+            <td style="padding:8px;"><strong>Phone Number:</strong></td>
+            <td style="padding:8px;">________________________________________</td>
+        </tr>
+
+        <tr>
+            <td style="padding:8px;"><strong>Routing Number:</strong></td>
+            <td style="padding:8px;">________________________________________</td>
+        </tr>
+
+        <tr>
+            <td style="padding:8px;"><strong>Account Number:</strong></td>
+            <td style="padding:8px;">________________________________________</td>
+        </tr>
+
+        <tr>
+            <td style="padding:8px;"><strong>Account Type (choose one):</strong></td>
+            <td style="padding:8px;">
+                <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; margin-right:6px;"></span> Consumer Checking &nbsp;&nbsp;&nbsp;
+                <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; margin-right:6px;"></span> Consumer Savings &nbsp;&nbsp;&nbsp;
+                <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; margin-right:6px;"></span> Business Checking &nbsp;&nbsp;&nbsp;
+                <span style="display:inline-block; width:12px; height:12px; border:1px solid #000; margin-right:6px;"></span> Business Savings
+            </td>
+        </tr>
+    </table>
+</div>
+ <p style="margin:0 0 10px 0;text-align:justify;">
+    <b>Initial</b> I certify that I have filled out either the Credit Card Authorization or the ACH Authorization above.  
+    I understand that per Section 4 of this Agreement, the Credit Card Authorization or the ACH Authorization must be filled 
+    out before submitting this retainer agreement.  
+    </p>
+
+
+ <div style="text-align:center; margin-bottom:10px;">
+            <img src="{!URLFOR($Resource.Clogo)}" style="width:250px;height:150px;font-size:200px;"/>
+             <!-- <img src="https://www.google.com/webhp?hl=en&ictx=0&sa=X&ved=0ahUKEwjtjK-6v-mQAxXKTmwGHSg_NrUQpYkNCAs" style="width:250px;height:150px;font-size:200px;"/> -->
+        </div>
+
+    <div style="margin-top:30px; text-align:center; font-size:12pt; color:#555;">
+        100 Pine St, Ste. 530, San Francisco, CA 94105 | (415) 273-3504
+    </div>
+
+   <!--another section -->
+    <div style="margin-top:800px;">
+    <p style="margin:0 0 10px 0;"><strong>Date:</strong> _______________________</p>
+
+    <h3 style="text-align:center; text-decoration:underline; margin:10px 0;">VIA ELECTRONIC MAIL</h3>
+
+    <p style="margin:0 0 10px 0;">
+        ________________________<br/>
+        ________________________<br/>
+        ________________________
+    </p>
+
+    <p style="margin:10px 0;">
+        <strong>Re:</strong> Letter of Representation for ________________________
+    </p>
+
+    <p style="text-align:justify; margin:10px 0;">
+        To Whom It May Concern,
+    </p>
+
+    <p style="text-align:justify; margin:10px 0;">
+        Please be advised that Shapero Law Firm represents the above-mentioned borrower(s) in the matter regarding the
+        subject property located at <strong>Street Address (p1)</strong>, <strong>City (p1)</strong>,
+        <strong>State (p1)</strong>, <strong>Zipcode (p1)</strong>, and the loan in connection with the subject property.
+        The above-mentioned borrower(s) grant the Shapero Law Firm permission to speak on their behalf concerning the
+        subject property(s) and the related loan(s).
+    </p>
+
+    <p style="margin:10px 0;">
+        If you have any questions, please contact us at:<br/>
+        <strong>sarah@shaperolawfirm.com</strong>
+    </p>
+
+    <p style="margin:30px 0 10px 0;">Best Regards,</p>
+
+    <table style="width:100%; border-collapse:collapse; font-family:Arial, sans-serif; font-size:11pt;">
+        <tr>
+            <td style="width:50%; padding-top:20px;">
+                ______________________________________<br/>
+                <strong>Sarah Shapero</strong>
+            </td>
+            <td style="width:50%; padding-top:20px; text-align:right;">
+                ______________________________________<br/>
+                <strong>Borrower</strong>
+            </td>
+        </tr>
+    </table>
+</div>
+</apex:outputPanel>
+
+</apex:page>

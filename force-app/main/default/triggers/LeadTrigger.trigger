@@ -6,12 +6,15 @@ trigger LeadTrigger on Lead (after update) {
         List<Id> leadsToCreateStripeCustomer = New List<Id>();
         List<Id> leadIdsWithPaymentMethods = New List<Id>();
 
+        List<Lead> leadsToCreateStripeCus = New List<Lead>();
+
         for(Lead newLead: Trigger.new){
             Lead oldLead = Trigger.oldMap.get(newLead.Id);
             
             // Status changed to Retainer Signed - then create stripe customers
             if(newLead.Status == 'Retainer Signed'  && oldLead.Status != 'Retainer Signed' && newLead.Stripe_Customer_ID__c == null){
         		leadsToCreateStripeCustomer.add(newLead.Id);
+                leadsToCreateStripeCus.add(newLead);
             }
 
             // Stripe Customer ID added to lead - then create a stripe Payment Method
@@ -20,11 +23,18 @@ trigger LeadTrigger on Lead (after update) {
             }*/
         }
 
+        // commented as queueable changed to normal apex
         System.debug('leadsToCreateStripeCustomer: ' + leadsToCreateStripeCustomer.size() + ' ' + leadsToCreateStripeCustomer );
         If(!leadsToCreateStripeCustomer.isEmpty()){
             system.debug('calling Stripe_CustomerCreate.createStripeCustomer');
             System.enqueueJob(new Stripe_CustomerCreate(leadsToCreateStripeCustomer));
-        }
+        } 
+        /*System.debug('leadsToCreateStripeCus: ' + leadsToCreateStripeCus.size() + ' ' + leadsToCreateStripeCus );
+        If(!leadsToCreateStripeCus.isEmpty()){
+            system.debug('calling Stripe_CustomerCreate.createCustomers');
+            //Stripe_CustomerCreate.createCustomers(leadsToCreateStripeCus);
+            Stripe_CustomerCreate.createCustomers(leadsToCreateStripeCustomer);
+        } */
 
         /*System.debug('leadIdsWithPaymentMethods: ' + leadIdsWithPaymentMethods.size() + ' ' + leadIdsWithPaymentMethods );
         If(!leadIdsWithPaymentMethods.isEmpty()){

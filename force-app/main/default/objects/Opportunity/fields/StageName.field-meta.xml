@@ -3,6 +3,6 @@
     <fullName>StageName</fullName>
     <trackFeedHistory>true</trackFeedHistory>
     <trackHistory>false</trackHistory>
-    <trackTrending>false</trackTrending>
+    <trackTrending>true</trackTrending>
     <type>Picklist</type>
 </CustomField>

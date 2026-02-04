@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Next_Date_After_Initial_Pay_Date__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(
+  MONTH(
+    DATE(
+      YEAR(Initial_Payment_Date__c) + IF(MONTH(Initial_Payment_Date__c) = 12, 1, 0),
+      IF(MONTH(Initial_Payment_Date__c) = 12, 1, MONTH(Initial_Payment_Date__c) + 1),
+      MIN(
+        DAY(Initial_Payment_Date__c),
+        CASE(
+          IF(MONTH(Initial_Payment_Date__c) = 12, 1, MONTH(Initial_Payment_Date__c) + 1),
+          1, 31,
+          2, IF( OR( MOD(YEAR(Initial_Payment_Date__c)+IF(MONTH(Initial_Payment_Date__c)=12,1,0),400)=0, AND(MOD(YEAR(Initial_Payment_Date__c)+IF(MONTH(Initial_Payment_Date__c)=12,1,0),4)=0, MOD(YEAR(Initial_Payment_Date__c)+IF(MONTH(Initial_Payment_Date__c)=12,1,0),100)&lt;&gt;0) ),29,28),
+          3,31,4,30,5,31,6,30,7,31,8,31,9,30,10,31,11,30,12,31,
+          31
+        )
+      )
+    )
+  ),
+  1,&quot;January&quot;,2,&quot;February&quot;,3,&quot;March&quot;,4,&quot;April&quot;,5,&quot;May&quot;,6,&quot;June&quot;,7,&quot;July&quot;,8,&quot;August&quot;,9,&quot;September&quot;,10,&quot;October&quot;,11,&quot;November&quot;,12,&quot;December&quot;,
+  &quot;?&quot;
+)
+&amp; &quot; &quot; &amp;
+TEXT(
+  DAY(
+    DATE(
+      YEAR(Initial_Payment_Date__c) + IF(MONTH(Initial_Payment_Date__c) = 12, 1, 0),
+      IF(MONTH(Initial_Payment_Date__c) = 12, 1, MONTH(Initial_Payment_Date__c) + 1),
+      MIN(
+        DAY(Initial_Payment_Date__c),
+        CASE(
+          IF(MONTH(Initial_Payment_Date__c) = 12, 1, MONTH(Initial_Payment_Date__c) + 1),
+          1, 31,
+          2, IF( OR( MOD(YEAR(Initial_Payment_Date__c)+IF(MONTH(Initial_Payment_Date__c)=12,1,0),400)=0, AND(MOD(YEAR(Initial_Payment_Date__c)+IF(MONTH(Initial_Payment_Date__c)=12,1,0),4)=0, MOD(YEAR(Initial_Payment_Date__c)+IF(MONTH(Initial_Payment_Date__c)=12,1,0),100)&lt;&gt;0) ),29,28),
+          3,31,4,30,5,31,6,30,7,31,8,31,9,30,10,31,11,30,12,31,
+          31
+        )
+      )
+    )
+  )
+)
+&amp; &quot;, &quot; &amp;
+TEXT(
+  YEAR(
+    DATE(
+      YEAR(Initial_Payment_Date__c) + IF(MONTH(Initial_Payment_Date__c) = 12, 1, 0),
+      IF(MONTH(Initial_Payment_Date__c) = 12, 1, MONTH(Initial_Payment_Date__c) + 1),
+      MIN(
+        DAY(Initial_Payment_Date__c),
+        CASE(
+          IF(MONTH(Initial_Payment_Date__c) = 12, 1, MONTH(Initial_Payment_Date__c) + 1),
+          1, 31,
+          2, IF( OR( MOD(YEAR(Initial_Payment_Date__c)+IF(MONTH(Initial_Payment_Date__c)=12,1,0),400)=0, AND(MOD(YEAR(Initial_Payment_Date__c)+IF(MONTH(Initial_Payment_Date__c)=12,1,0),4)=0, MOD(YEAR(Initial_Payment_Date__c)+IF(MONTH(Initial_Payment_Date__c)=12,1,0),100)&lt;&gt;0) ),29,28),
+          3,31,4,30,5,31,6,30,7,31,8,31,9,30,10,31,11,30,12,31,
+          31
+        )
+      )
+    )
+  )
+)</formula>
+    <label>Next Date After Initial Pay Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

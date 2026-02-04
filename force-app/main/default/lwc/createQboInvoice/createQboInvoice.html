@@ -1,0 +1,24 @@
+<template>
+  
+        <div class="slds-p-around_medium">
+
+           <!-- Show message ONLY when invoice IS synced -->
+            <template if:true={isDisabled}>
+                <div class="slds-notify slds-notify_alert slds-theme_success" role="alert">
+                    <span class="slds-assistive-text">Success</span>
+                    <lightning-icon
+                        icon-name="utility:success"
+                        alternative-text="Success"
+                        size="small"
+                        class="slds-m-right_small">
+                    </lightning-icon>
+                    <h2>
+                        Invoice successfully synced with QuickBooks Online
+                    </h2>
+                </div>
+            </template>
+
+
+        </div>
+  
+</template>

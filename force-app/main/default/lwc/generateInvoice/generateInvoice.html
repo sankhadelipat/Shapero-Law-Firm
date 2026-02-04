@@ -1,0 +1,256 @@
+<template>
+
+<!-- ================= MAIN PAGE ================= -->
+<div class="slds-card">
+
+<div class="slds-card__header header-with-icon">
+    <lightning-icon
+        icon-name="utility:money"
+        size="small"
+        class="header-icon">
+    </lightning-icon>
+
+    <h2 class="slds-text-heading_medium header-title">
+        Generate Invoice
+    </h2>
+</div>
+
+
+<div class="slds-card__body slds-card__body_inner">
+
+<!-- Date Filter -->
+<div class="slds-grid slds-grid_align-end slds-m-bottom_medium">
+<div class="slds-col slds-size_1-of-4">
+<lightning-combobox
+label="Status"
+value={statusFilter}
+options={statusOptions}
+onchange={handleStatusChange}>
+</lightning-combobox>
+</div>
+&nbsp;&nbsp;
+<div class="slds-col slds-size_1-of-4">
+<lightning-combobox
+label="Date Range"
+value={dateFilter}
+options={dateOptions}
+onchange={handleDateChange}>
+</lightning-combobox>
+</div>
+</div>
+
+
+<!-- Custom Date Range -->
+<template if:true={showCustomDate}>
+<div class="slds-grid slds-gutters slds-m-top_small">
+<div class="slds-col">
+<lightning-input
+type="date"
+label="From"
+value={fromDate}
+onchange={handleFromDate}>
+</lightning-input>
+</div>
+
+<div class="slds-col">
+<lightning-input
+type="date"
+label="To"
+value={toDate}
+onchange={handleToDate}>
+</lightning-input>
+</div>
+</div>
+</template>
+
+
+<!-- Expenses Table -->
+<table class="slds-table slds-table_bordered slds-table_cell-buffer slds-m-top_medium">
+<thead>
+    <tr>
+        <th>
+            <lightning-input
+                type="checkbox"
+                checked={isAllSelected}
+                onchange={handleSelectAll}
+                disabled={disableSelectAll}>
+            </lightning-input>
+        </th>
+
+        <th>Expense Date</th>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>Description</th>
+        <th>Account</th>
+        <th></th>
+        <th>Status</th>
+    </tr>
+</thead>
+<tbody>
+    
+   <template for:each={expenses} for:item="exp">
+    <tr key={exp.Id} class={exp.rowClass}>
+        <td>
+            <lightning-input
+                type="checkbox"
+                checked={exp.selected}
+                disabled={exp.Invoiced__c}
+                data-id={exp.Id}
+                onchange={handleSelect}>
+            </lightning-input>
+        </td>
+
+        <td>
+            <lightning-formatted-date-time
+                value={exp.Expense_Date__c}>
+            </lightning-formatted-date-time>
+        </td>
+
+        <td>{exp.Category__c}</td>
+
+        <td>
+            <lightning-formatted-number
+                value={exp.Amount__c}
+                format-style="currency">
+            </lightning-formatted-number>
+        </td>
+
+        <td style="width:300px;">{exp.Description__c}</td>
+
+        <td style="width:250px;">
+            <lightning-record-picker
+                object-api-name="Account"
+                value={exp.Account__c}
+                data-id={exp.Id}
+                label="Account"
+                disabled={exp.Invoiced__c}
+                onchange={handleAccountChange}>
+            </lightning-record-picker>
+        </td>
+
+        <td>
+            <template if:true={exp.isDirty}>
+                <lightning-button-icon
+                    icon-name="utility:save"
+                    variant="brand"
+                    alternative-text="Save"
+                    class="slds-m-left_small"
+                    data-id={exp.Id}
+                    onclick={handleSave}>
+                </lightning-button-icon>
+            </template>
+        </td>
+
+        <td>
+            <template if:true={exp.Invoiced__c}>
+                <span class="slds-badge slds-theme_success">Invoiced</span>
+            </template>
+            <template if:false={exp.Invoiced__c}>
+                <span class="slds-badge">Pending</span>
+            </template>
+        </td>
+    </tr>
+</template>
+
+
+</tbody>
+</table>
+
+<!-- Pagination -->
+<div class="slds-m-top_medium slds-grid slds-grid_align-center slds-gutters_small">
+
+<lightning-button
+label="Previous"
+onclick={handlePrevious}
+disabled={disablePrev}>
+</lightning-button>
+
+<span class="slds-p-horizontal_medium slds-text-title_bold">
+Page {currentPage}
+</span>
+
+<lightning-button
+label="Next"
+onclick={handleNext}
+disabled={disableNext}>
+</lightning-button>
+
+</div>
+
+
+</div>
+
+<div class="slds-card__footer slds-text-align_right">
+<lightning-button
+label="Review"
+variant="brand"
+onclick={review}>
+</lightning-button>
+</div>
+</div>
+
+<!-- ================= REVIEW MODAL ================= -->
+<template if:true={showReviewModal}>
+<section class="slds-modal slds-fade-in-open slds-modal_medium">
+
+
+<header class="slds-modal__header">
+    <h2 class="slds-text-heading_medium">
+        Review Selected Expenses
+    </h2>
+</header>
+
+<div class="slds-modal__content slds-p-around_medium">
+
+    <template for:each={selectedExpenses} for:item="rev">
+        <div key={rev.Id} class="review-card">
+
+            <div class="review-row">
+                <strong>Date:</strong>
+                <lightning-formatted-date-time
+                    value={rev.Expense_Date__c}>
+                </lightning-formatted-date-time>
+            </div>
+
+            <div class="review-row">
+                <strong>Category:</strong> {rev.Category__c}
+            </div>
+
+            <div class="review-row">
+                <strong>Amount:</strong>
+                <lightning-formatted-number
+                    value={rev.Amount__c}
+                    format-style="currency">
+                </lightning-formatted-number>
+            </div>
+
+           <div class="review-row">
+                <strong>Account:</strong> {rev.Account__r.Name}
+            </div>
+
+           
+        </div>
+    </template>
+
+</div>
+
+<footer class="slds-modal__footer">
+    <lightning-button
+        label="Back"
+        onclick={closeReviewModal}>
+    </lightning-button>
+
+    <lightning-button
+        label="Submit & Approve"
+        variant="brand"
+        onclick={submit}>
+    </lightning-button>
+</footer>
+
+
+</section>
+
+<div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+
+</template>

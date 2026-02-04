@@ -1,0 +1,176 @@
+.header-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(90deg, #f0f7ff, #ffffff);
+    border-bottom: 1px solid #e5e7eb;
+    border-radius: 16px 16px 0 0;
+}
+
+.header-icon {
+    background: #1b96ff;
+    padding: 0.4rem;
+    border-radius: 10px;
+    --slds-c-icon-color-foreground-default: #ffffff;
+}
+
+.header-title {
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.2;
+}
+
+.slds-modal__container {
+    border-radius: 16px;
+    overflow: hidden;
+    background: #f8fafc;
+}
+
+/* =========================
+   TABLE WRAPPER
+========================= */
+.table-wrapper {
+    margin-top: 1rem;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow-x: auto;
+}
+
+/* =========================
+   TABLE HEADER
+========================= */
+thead th {
+    position: sticky;
+    top: 0;
+    background: linear-gradient(180deg, #f8fafc, #eef2f7);
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #374151;
+    z-index: 2;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* =========================
+   TABLE ROWS
+========================= */
+tbody tr {
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+    border-bottom: 1px solid #eef1f6;
+}
+
+tbody tr:hover {
+    background-color: #f0f7ff;
+}
+
+/* =========================
+   SELECTED ROW
+========================= */
+tbody tr.selected {
+    background: linear-gradient(90deg, #eaf2ff, #f5f9ff);
+    box-shadow: inset 5px 0 0 #1b96ff;
+}
+
+/* =========================
+   CELLS
+========================= */
+td, th {
+    padding: 0.85rem;
+    vertical-align: middle;
+    font-size: 0.8rem;
+    color: #111827;
+}
+
+/* =========================
+   ACCOUNT PICKER
+========================= */
+lightning-record-picker {
+    --slds-c-input-radius-border: 10px;
+    --slds-c-input-shadow-focus: 0 0 0 2px rgba(27, 150, 255, 0.25);
+}
+
+/* =========================
+   REVIEW CARD
+========================= */
+.review-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   REVIEW ROW
+========================= */
+.review-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.35rem 0;
+    border-bottom: 1px dashed #e5e7eb;
+}
+
+.review-row:last-child {
+    border-bottom: none;
+}
+
+.review-row .label {
+    font-weight: 600;
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+/* =========================
+   INVOICED STATE
+========================= */
+.invoiced-row {
+    background: #f3f4f6 !important;
+    color: #9ca3af;
+}
+
+.invoiced-row lightning-input,
+.invoiced-row lightning-record-picker {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tbody tr {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.4rem 0;
+        border: none;
+        font-size: 0.75rem;
+    }
+
+    td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #6b7280;
+    }
+}

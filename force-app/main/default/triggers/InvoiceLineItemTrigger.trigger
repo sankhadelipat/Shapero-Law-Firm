@@ -1,5 +1,3 @@
-trigger InvoiceLineItemTrigger on Invoice_Line_Item__c (after insert) {
-    if (Trigger.isAfter && Trigger.isInsert) {
-        InvoiceLineItemAutoQBOHandler.handle(Trigger.new);
-    }
+trigger InvoiceLineItemTrigger on Invoice_Line_Item__c (after insert, after update) {
+   InvoiceLineItemAutoQBOHandler.handle(Trigger.new,Trigger.isUpdate ? Trigger.oldMap : null);
 }

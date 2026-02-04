@@ -2,6 +2,5 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Pricebook2Id</fullName>
     <securityClassification>Confidential</securityClassification>
-    <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

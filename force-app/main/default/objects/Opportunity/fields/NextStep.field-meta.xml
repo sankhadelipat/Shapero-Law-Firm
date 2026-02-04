@@ -3,5 +3,5 @@
     <fullName>NextStep</fullName>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
-    <trackTrending>false</trackTrending>
+    <trackTrending>true</trackTrending>
 </CustomField>

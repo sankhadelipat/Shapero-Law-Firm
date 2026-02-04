@@ -1,8 +1,13 @@
-public class Stripe_CustomerCreate implements Queueable, Database.AllowsCallouts {
+public class Stripe_CustomerCreate
+    implements Queueable, Database.AllowsCallouts { // commented as it is changed to normal apex 
+
     private static final StripeAuth__c STRIPE_AUTH = StripeAuth__c.getOrgDefaults();
     private static final String STRIPE_API_URL = STRIPE_AUTH.API_URL__c;
     private static final String SECRET_KEY = STRIPE_AUTH.SECRET_KEY__c;
 
+    
+    
+    
     private List<Id> leadIds;
 
     public Stripe_CustomerCreate(List<Id> leadIds) {
@@ -35,9 +40,43 @@ public class Stripe_CustomerCreate implements Queueable, Database.AllowsCallouts
         } catch (Exception e) {
             system.debug('Error while Processing lead: ' + e.getMessage());
         }
-    }
+    } 
+
+    /*public static void createCustomers(List<Id> leadIds) { //(List<Lead> leads){
+        //system.debug('createCustomer leads: ' + leads);
+        try {
+            List<Lead> leads = [
+                SELECT Id, Name, Phone, Email, Status, Stripe_Customer_ID__c
+                FROM Lead
+                WHERE Id IN :leadIds
+                AND Stripe_Customer_ID__c = NULL
+            ];
+
+            if (leads.isEmpty()) {
+                return;
+            }
+
+            List<Lead> leadsToUpdate = new List<Lead>();
+
+            for (Lead l : leads) {
+                String stripeCustomerId = createStripeCustomer(l);
+                if (stripeCustomerId != null) {
+                    l.Stripe_Customer_ID__c = stripeCustomerId;
+                    leadsToUpdate.add(l);
+                }
+            }
+
+            if (!leadsToUpdate.isEmpty()) {
+                update leadsToUpdate;
+            }
+
+        } catch (Exception e) {
+            System.debug('Error while processing Leads: ' + e.getMessage());
+        }
+    } */
 
     public static String createStripeCustomer(Lead lead) {
+        system.debug('createStripeCustomer lead: ' + lead);
         Http http = new Http();
         HttpRequest req = new HttpRequest();
 

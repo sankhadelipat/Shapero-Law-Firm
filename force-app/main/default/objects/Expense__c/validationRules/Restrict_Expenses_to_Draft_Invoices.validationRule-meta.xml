@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Restrict_Expenses_to_Draft_Invoices</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(Invoice__c)),
+    OR(
+       ISNEW(),
+       ISCHANGED(Invoice__c),
+       ISCHANGED(Amount__c) 
+    ),
+    TEXT(Invoice__r.Status__c) &lt;&gt; &quot;Draft&quot;
+)</errorConditionFormula>
+    <errorMessage>Expenses and Expense Amount can only be added when the Invoice is in &apos;Draft&apos; status.</errorMessage>
+</ValidationRule>

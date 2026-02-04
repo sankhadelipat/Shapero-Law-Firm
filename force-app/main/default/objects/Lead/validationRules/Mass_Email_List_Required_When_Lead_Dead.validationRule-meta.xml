@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mass_Email_List_Required_When_Lead_Dead</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(TEXT( Dead_Reson__c ))),
+    ISBLANK(TEXT(Mass_Email_List__c))
+)</errorConditionFormula>
+    <errorDisplayField>Mass_Email_List__c</errorDisplayField>
+    <errorMessage>Please select a value for the Mass Email List when the lead is marked as Dead.</errorMessage>
+</ValidationRule>

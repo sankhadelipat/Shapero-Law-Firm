@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Meeting_or_Phone_Only__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( In_Person_Meeting__c , &quot;In-Person Meeting&quot;, &quot;Phone Only&quot;)</formula>
+    <label>Meeting or Phone Only</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

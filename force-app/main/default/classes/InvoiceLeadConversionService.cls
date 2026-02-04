@@ -31,6 +31,7 @@ public class InvoiceLeadConversionService {
         for (Invoice__c inv : invoices) {
             leadIds.add(inv.Lead__c);
         }
+        system.debug('leadIds: ' + leadIds);
 
         // Query Leads
         Map<Id, Lead> leadMap = new Map<Id, Lead>(
@@ -38,6 +39,7 @@ public class InvoiceLeadConversionService {
              FROM Lead
              WHERE Id IN :leadIds]
         );
+        system.debug('leadMap: ' + leadMap);
 
         // Prepare Lead Converts
         List<Database.LeadConvert> converts = new List<Database.LeadConvert>();
@@ -53,10 +55,29 @@ public class InvoiceLeadConversionService {
                 converts.add(lc);
             }
         }
+        system.debug('converts: ' + converts);
 
         // Convert Leads
         if (!converts.isEmpty()) {
-            Database.convertLead(converts, false);
+            List<Database.LeadConvertResult> lcrList = Database.convertLead(converts, false);
+            
+            // 2. Loop through each result to check success/failure
+            for (Database.LeadConvertResult lcr : lcrList) {
+                if (lcr.isSuccess()) {
+                    // Success: You can access the new IDs
+                    System.debug('Success! Lead ID: ' + lcr.getLeadId());
+                    System.debug('Account ID: ' + lcr.getAccountId());
+                    System.debug('Contact ID: ' + lcr.getContactId());
+                } else {
+                    // Failure: Loop through the errors
+                    System.debug('Failed Lead ID: ' + lcr.getLeadId());
+                    for(Database.Error err : lcr.getErrors()) {
+                        System.debug('Error Status: ' + err.getStatusCode());
+                        System.debug('Error Message: ' + err.getMessage());
+                        System.debug('Affected Fields: ' + err.getFields());
+                    }
+                }
+            }
         }
 		//UpdateParentAccountsOfLeadsChildObject.updateChildObjects(leadIds);
 		/*

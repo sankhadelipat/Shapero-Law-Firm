@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <customProperties>
+        <name>ScreenProgressIndicator</name>
+        <value>
+            <stringValue>{&quot;location&quot;:&quot;top&quot;,&quot;type&quot;:&quot;simple&quot;}</stringValue>
+        </value>
+    </customProperties>
+    <environments>Default</environments>
+    <formulas>
+        <name>totalDurationOnContacted</name>
+        <dataType>String</dataType>
+        <expression>IF(
+    {!Get_Minute_Values.Time_spent_in_Contacted__c} &gt; 0 
+    &amp;&amp; {!Get_Minute_Values.Time_spent_in_Contacted__c} &lt; 1,
+    &quot;Less than a minute&quot;,
+    
+    IF(
+        FLOOR({!Get_Minute_Values.Time_spent_in_Contacted__c} / 10080) &gt; 0,
+        TEXT(FLOOR({!Get_Minute_Values.Time_spent_in_Contacted__c} / 10080)) &amp;
+        IF(FLOOR({!Get_Minute_Values.Time_spent_in_Contacted__c} / 10080) = 1, &quot; Week &quot;, &quot; Weeks &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Contacted__c}, 10080) / 1440) &gt; 0,
+        TEXT(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Contacted__c}, 10080) / 1440)) &amp;
+        IF(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Contacted__c}, 10080) / 1440) = 1, &quot; Day &quot;, &quot; Days &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Contacted__c}, 1440) / 60) &gt; 0,
+        TEXT(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Contacted__c}, 1440) / 60)) &amp;
+        IF(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Contacted__c}, 1440) / 60) = 1, &quot; Hour &quot;, &quot; Hours &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        ROUND(MOD({!Get_Minute_Values.Time_spent_in_Contacted__c}, 60), 0) &gt; 0,
+        TEXT(ROUND(MOD({!Get_Minute_Values.Time_spent_in_Contacted__c}, 60), 0)) &amp;
+        IF(ROUND(MOD({!Get_Minute_Values.Time_spent_in_Contacted__c}, 60), 0) = 1, &quot; Minute&quot;, &quot; Minutes&quot;),
+        &quot;&quot;
+    )
+)</expression>
+    </formulas>
+    <formulas>
+        <name>totalDurationOnNotContacted</name>
+        <dataType>String</dataType>
+        <expression>IF(
+    {!Get_Minute_Values.Time_spent_in_Not_Contacted__c} &gt; 0 
+    &amp;&amp; {!Get_Minute_Values.Time_spent_in_Not_Contacted__c} &lt; 1,
+    &quot;Less than a minute&quot;,
+    
+    /* Normal formatting when &gt;= 1 minute */
+    IF(
+        FLOOR({!Get_Minute_Values.Time_spent_in_Not_Contacted__c} / 10080) &gt; 0,
+        TEXT(FLOOR({!Get_Minute_Values.Time_spent_in_Not_Contacted__c} / 10080)) &amp;
+        IF(FLOOR({!Get_Minute_Values.Time_spent_in_Not_Contacted__c} / 10080) = 1, &quot; Week &quot;, &quot; Weeks &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Not_Contacted__c}, 10080) / 1440) &gt; 0,
+        TEXT(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Not_Contacted__c}, 10080) / 1440)) &amp;
+        IF(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Not_Contacted__c}, 10080) / 1440) = 1, &quot; Day &quot;, &quot; Days &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Not_Contacted__c}, 1440) / 60) &gt; 0,
+        TEXT(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Not_Contacted__c}, 1440) / 60)) &amp;
+        IF(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Not_Contacted__c}, 1440) / 60) = 1, &quot; Hour &quot;, &quot; Hours &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        ROUND(MOD({!Get_Minute_Values.Time_spent_in_Not_Contacted__c}, 60), 0) &gt; 0,
+        TEXT(ROUND(MOD({!Get_Minute_Values.Time_spent_in_Not_Contacted__c}, 60), 0)) &amp;
+        IF(ROUND(MOD({!Get_Minute_Values.Time_spent_in_Not_Contacted__c}, 60), 0) = 1, &quot; Minute&quot;, &quot; Minutes&quot;),
+        &quot;&quot;
+    )
+)</expression>
+    </formulas>
+    <formulas>
+        <name>totalDurationOnNurturing</name>
+        <dataType>String</dataType>
+        <expression>IF(
+    {!Get_Minute_Values.Time_spent_in_Nurturing__c} &gt; 0 
+    &amp;&amp; {!Get_Minute_Values.Time_spent_in_Nurturing__c} &lt; 1,
+    &quot;Less than a minute&quot;,
+    
+    IF(
+        FLOOR({!Get_Minute_Values.Time_spent_in_Nurturing__c} / 10080) &gt; 0,
+        TEXT(FLOOR({!Get_Minute_Values.Time_spent_in_Nurturing__c} / 10080)) &amp;
+        IF(FLOOR({!Get_Minute_Values.Time_spent_in_Nurturing__c} / 10080) = 1, &quot; Week &quot;, &quot; Weeks &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Nurturing__c}, 10080) / 1440) &gt; 0,
+        TEXT(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Nurturing__c}, 10080) / 1440)) &amp;
+        IF(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Nurturing__c}, 10080) / 1440) = 1, &quot; Day &quot;, &quot; Days &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Nurturing__c}, 1440) / 60) &gt; 0,
+        TEXT(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Nurturing__c}, 1440) / 60)) &amp;
+        IF(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Nurturing__c}, 1440) / 60) = 1, &quot; Hour &quot;, &quot; Hours &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        ROUND(MOD({!Get_Minute_Values.Time_spent_in_Nurturing__c}, 60), 0) &gt; 0,
+        TEXT(ROUND(MOD({!Get_Minute_Values.Time_spent_in_Nurturing__c}, 60), 0)) &amp;
+        IF(ROUND(MOD({!Get_Minute_Values.Time_spent_in_Nurturing__c}, 60), 0) = 1, &quot; Minute&quot;, &quot; Minutes&quot;),
+        &quot;&quot;
+    )
+)</expression>
+    </formulas>
+    <formulas>
+        <name>totalDurationOnRetainerSent</name>
+        <dataType>String</dataType>
+        <expression>IF(
+    {!Get_Minute_Values.Time_spent_in_Qualified__c} &gt; 0 
+    &amp;&amp; {!Get_Minute_Values.Time_spent_in_Qualified__c} &lt; 1,
+    &quot;Less than a minute&quot;,
+    
+    IF(
+        FLOOR({!Get_Minute_Values.Time_spent_in_Qualified__c} / 10080) &gt; 0,
+        TEXT(FLOOR({!Get_Minute_Values.Time_spent_in_Qualified__c} / 10080)) &amp;
+        IF(FLOOR({!Get_Minute_Values.Time_spent_in_Qualified__c} / 10080) = 1, &quot; Week &quot;, &quot; Weeks &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Qualified__c}, 10080) / 1440) &gt; 0,
+        TEXT(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Qualified__c}, 10080) / 1440)) &amp;
+        IF(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Qualified__c}, 10080) / 1440) = 1, &quot; Day &quot;, &quot; Days &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Qualified__c}, 1440) / 60) &gt; 0,
+        TEXT(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Qualified__c}, 1440) / 60)) &amp;
+        IF(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Qualified__c}, 1440) / 60) = 1, &quot; Hour &quot;, &quot; Hours &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        ROUND(MOD({!Get_Minute_Values.Time_spent_in_Qualified__c}, 60), 0) &gt; 0,
+        TEXT(ROUND(MOD({!Get_Minute_Values.Time_spent_in_Qualified__c}, 60), 0)) &amp;
+        IF(ROUND(MOD({!Get_Minute_Values.Time_spent_in_Qualified__c}, 60), 0) = 1, &quot; Minute&quot;, &quot; Minutes&quot;),
+        &quot;&quot;
+    )
+)</expression>
+    </formulas>
+    <formulas>
+        <name>totalDurationOnRetainerSigned</name>
+        <dataType>String</dataType>
+        <expression>IF(
+    {!Get_Minute_Values.Time_spent_in_Retainer_Signed__c} &gt; 0 
+    &amp;&amp; {!Get_Minute_Values.Time_spent_in_Retainer_Signed__c} &lt; 1,
+    &quot;Less than a minute&quot;,
+    
+    IF(
+        FLOOR({!Get_Minute_Values.Time_spent_in_Retainer_Signed__c} / 10080) &gt; 0,
+        TEXT(FLOOR({!Get_Minute_Values.Time_spent_in_Retainer_Signed__c} / 10080)) &amp;
+        IF(FLOOR({!Get_Minute_Values.Time_spent_in_Retainer_Signed__c} / 10080) = 1, &quot; Week &quot;, &quot; Weeks &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Retainer_Signed__c}, 10080) / 1440) &gt; 0,
+        TEXT(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Retainer_Signed__c}, 10080) / 1440)) &amp;
+        IF(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Retainer_Signed__c}, 10080) / 1440) = 1, &quot; Day &quot;, &quot; Days &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Retainer_Signed__c}, 1440) / 60) &gt; 0,
+        TEXT(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Retainer_Signed__c}, 1440) / 60)) &amp;
+        IF(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Retainer_Signed__c}, 1440) / 60) = 1, &quot; Hour &quot;, &quot; Hours &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        ROUND(MOD({!Get_Minute_Values.Time_spent_in_Retainer_Signed__c}, 60), 0) &gt; 0,
+        TEXT(ROUND(MOD({!Get_Minute_Values.Time_spent_in_Retainer_Signed__c}, 60), 0)) &amp;
+        IF(ROUND(MOD({!Get_Minute_Values.Time_spent_in_Retainer_Signed__c}, 60), 0) = 1, &quot; Minute&quot;, &quot; Minutes&quot;),
+        &quot;&quot;
+    )
+)</expression>
+    </formulas>
+    <formulas>
+        <name>totalDurationOnUnqualified</name>
+        <dataType>String</dataType>
+        <expression>IF(
+    {!Get_Minute_Values.Time_spent_in_Unqualified__c} &gt; 0 
+    &amp;&amp; {!Get_Minute_Values.Time_spent_in_Unqualified__c} &lt; 1,
+    &quot;Less than a minute&quot;,
+    
+    IF(
+        FLOOR({!Get_Minute_Values.Time_spent_in_Unqualified__c} / 10080) &gt; 0,
+        TEXT(FLOOR({!Get_Minute_Values.Time_spent_in_Unqualified__c} / 10080)) &amp;
+        IF(FLOOR({!Get_Minute_Values.Time_spent_in_Unqualified__c} / 10080) = 1, &quot; Week &quot;, &quot; Weeks &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Unqualified__c}, 10080) / 1440) &gt; 0,
+        TEXT(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Unqualified__c}, 10080) / 1440)) &amp;
+        IF(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Unqualified__c}, 10080) / 1440) = 1, &quot; Day &quot;, &quot; Days &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Unqualified__c}, 1440) / 60) &gt; 0,
+        TEXT(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Unqualified__c}, 1440) / 60)) &amp;
+        IF(FLOOR(MOD({!Get_Minute_Values.Time_spent_in_Unqualified__c}, 1440) / 60) = 1, &quot; Hour &quot;, &quot; Hours &quot;),
+        &quot;&quot;
+    )
+    &amp; IF(
+        ROUND(MOD({!Get_Minute_Values.Time_spent_in_Unqualified__c}, 60), 0) &gt; 0,
+        TEXT(ROUND(MOD({!Get_Minute_Values.Time_spent_in_Unqualified__c}, 60), 0)) &amp;
+        IF(ROUND(MOD({!Get_Minute_Values.Time_spent_in_Unqualified__c}, 60), 0) = 1, &quot; Minute&quot;, &quot; Minutes&quot;),
+        &quot;&quot;
+    )
+)</expression>
+    </formulas>
+    <interviewLabel>Total Duration FLow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Total Duration Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>Get_Minute_Values</name>
+        <label>Get Minute Values</label>
+        <locationX>170</locationX>
+        <locationY>310</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Display_Total_Duration</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Lead</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <screens>
+        <name>Display_Total_Duration</name>
+        <label>Display Total Duration</label>
+        <locationX>356</locationX>
+        <locationY>462</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Total_duration_on_Not_Contacted</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 20px;&quot;&gt;Time Spent on Not Contacted : &lt;/strong&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;{!totalDurationOnNotContacted}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Minute_Values.Time_spent_in_Not_Contacted__c</leftValueReference>
+                    <operator>GreaterThan</operator>
+                    <rightValue>
+                        <numberValue>0.0</numberValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Total_duration_on_Contacted</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 20px; background-color: rgb(255, 255, 255);&quot;&gt;Time Spent on Contacted : &lt;/strong&gt;&lt;span style=&quot;font-size: 20px; background-color: rgb(255, 255, 255);&quot;&gt;{!totalDurationOnContacted}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Minute_Values.Time_spent_in_Contacted__c</leftValueReference>
+                    <operator>GreaterThan</operator>
+                    <rightValue>
+                        <numberValue>0.0</numberValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Total_duration_on_Nurturing</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 20px; background-color: rgb(255, 255, 255);&quot;&gt;Time Spent on Nurturing : &lt;/strong&gt;&lt;span style=&quot;font-size: 20px; background-color: rgb(255, 255, 255);&quot;&gt;{!totalDurationOnNurturing}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Minute_Values.Time_spent_in_Nurturing__c</leftValueReference>
+                    <operator>GreaterThan</operator>
+                    <rightValue>
+                        <numberValue>0.0</numberValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Total_duration_on_Retainer_sent</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 20px;&quot;&gt;Time Spent on Retainer Sent: &lt;/strong&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;{!totalDurationOnRetainerSent}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Minute_Values.Time_spent_in_Qualified__c</leftValueReference>
+                    <operator>GreaterThan</operator>
+                    <rightValue>
+                        <numberValue>0.0</numberValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Total_duration_on_Unqualified</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 20px; background-color: rgb(255, 255, 255);&quot;&gt;Time Spent on Unqualified: &lt;/strong&gt;&lt;span style=&quot;font-size: 20px; background-color: rgb(255, 255, 255);&quot;&gt;{!totalDurationOnUnqualified}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Minute_Values.Time_spent_in_Unqualified__c</leftValueReference>
+                    <operator>GreaterThan</operator>
+                    <rightValue>
+                        <numberValue>0.0</numberValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Total_duration_on_Retainer_Signed</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 20px; background-color: rgb(255, 255, 255);&quot;&gt;Time Spent on Retainer Signed: &lt;/strong&gt;&lt;span style=&quot;font-size: 20px; background-color: rgb(255, 255, 255);&quot;&gt;{!totalDurationOnRetainerSigned}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Minute_Values.Time_spent_in_Retainer_Signed__c</leftValueReference>
+                    <operator>GreaterThan</operator>
+                    <rightValue>
+                        <numberValue>0.0</numberValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <nextOrFinishButtonLabel>Refresh</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>129</locationX>
+        <locationY>46</locationY>
+        <connector>
+            <targetReference>Get_Minute_Values</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

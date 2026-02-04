@@ -1,0 +1,11 @@
+<template>
+    <lightning-button 
+        label="Preview Invoice"
+        variant="brand"
+        onclick={handlePreview}>
+    </lightning-button>
+
+    <c-invoice-pdf-doc-generator 
+        onsent={handleChildSent}>
+    </c-invoice-pdf-doc-generator >
+</template>

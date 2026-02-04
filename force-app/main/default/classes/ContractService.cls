@@ -1,11 +1,12 @@
 public class ContractService {
     public static void generateInitialRetainerInvoices(Set<Id> contractIds) {
+        system.debug('running ContractService');
         if (contractIds == null || contractIds.isEmpty())
             return;
 
         // Load contracts
         List<Contract> contracts = [
-            SELECT Id, AccountId, StartDate, Monthly_Fee__c
+            SELECT Id, AccountId, StartDate, Monthly_Fee__c, Account.QBO_Customer_ID__c
             FROM Contract
             WHERE Id IN :contractIds
         ];
@@ -19,6 +20,8 @@ public class ContractService {
         List<Invoice__c> invoicesToInsert = new List<Invoice__c>();
 
         for (Contract con : contracts) {
+            system.debug('con' + con);
+            system.debug('con.Account.QBO_Customer_ID__c:' + con.Account.QBO_Customer_ID__c);
             Date startDate = con.StartDate;
             Date firstDayOfMonth = Date.newInstance(startDate.year(), startDate.month(), 1);
             Date lastDayOfMonth = firstDayOfMonth.addMonths(1).addDays(-1);

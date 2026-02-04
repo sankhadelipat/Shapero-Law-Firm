@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Restrict_Line_Items_to_Draft_Invoices</fullName>
+    <active>true</active>
+    <description>this validation prevent users to add line items on invoices when invoice is not in draft status</description>
+    <errorConditionFormula>AND(
+    OR(
+       ISNEW(),
+       ISCHANGED( Invoice__c ),
+       ISCHANGED( Line_Amount__c )
+    ),
+    TEXT(Invoice__r.Status__c) &lt;&gt; &quot;Draft&quot;
+)</errorConditionFormula>
+    <errorMessage>Line items and Amount can only be added when the Invoice is in &apos;Draft&apos; status.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Billing_Admin_Email__c</fullName>
+    <defaultValue>&quot;mahesh.delipat@gmail.com&quot;</defaultValue>
+    <externalId>false</externalId>
+    <label>Billing Admin Email</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Email</type>
+    <unique>false</unique>
+</CustomField>
